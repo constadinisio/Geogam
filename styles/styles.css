@@ -7,9 +7,13 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Cinzel', serif;
-    background-image: url("../imagenes/fondo.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: 
+  linear-gradient(rgba(0, 0, 0, 0.5), rgba(0,0,0,0.5)),
+  url("../images/fondo.png");
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .logo {
@@ -28,7 +32,7 @@ body {
 
   background: 
   linear-gradient(rgba(0, 0, 0, 0.5), rgba(0,0,0,0.5)),
-  url("../imagenes/fondo.png");
+  url("../images/fondo.png");
 
   background-repeat: no-repeat;
   background-size: cover;
@@ -61,7 +65,43 @@ body {
      align-items: center;
      justify-content: center;
      display: flex;
-     width: 100px;
-     height: 100px;
-     padding: 0;
+     width: 70px;
+     height: 70px;
+     padding-top: 10px;
+}
+
+#copyright {
+  color: white;
+  padding: 2px;
+  position: relative;
+  top: 250px;
+  padding-top: 2px;
+}
+
+hr {
+  border-style: solid;
+  border-color: gray;
+  border-width: 1px 0 0 0;
+  height: 0;
+  background: none;
+  width: 50%;
+  margin: 10px auto;
+}
+
+.config {
+  display: flex;
+  height: 60px;
+  width: 50px;  
+  justify-content: left;
+  top: 15px;
+  left: 15px;
+}
+
+.perfil {
+  display: flex;
+  height: 50px;
+  width: 50px;  
+  justify-content: right;
+  top: 15px;
+  right: 15px;
 }
