@@ -1,0 +1,289 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+
+body {
+  background-color: #c18a42;
+  /* color de fondo base */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Cinzel', serif;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    url("../images/fondo.png");
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.logo {
+  max-width: 200px;
+  border-radius: 50%;
+  align-items: center;
+  justify-items: center;
+}
+
+#pantalla_de_carga {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../images/fondo.png");
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#splash-screen h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+#splash-screen .loader {
+  width: 80px;
+  height: 80px;
+}
+
+#main-content {
+  display: none;
+  padding: 20px;
+  width: 100vw;
+  height: 100vh;
+}
+
+.carga {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 70px;
+  height: 70px;
+  padding-top: 10px;
+}
+
+#copyright {
+  color: white;
+  padding: 2px;
+  position: relative;
+  top: 250px;
+  padding-top: 2px;
+}
+
+hr {
+  border-style: solid;
+  border-color: gray;
+  border-width: 1px 0 0 0;
+  height: 0;
+  background: none;
+  width: 50%;
+  margin: 10px auto;
+}
+
+
+/* Botones */
+
+.botones {
+  display: flex;
+  justify-content: space-between;
+  /* manda uno a la izq y otro a la der */
+  align-items: center;
+  padding: 15px;
+  position: relative;
+  top: 45px;
+}
+
+/* --- Estilo base de los botones --- */
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-color: rgba(20, 20, 20, 0.3);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.btn-volver {
+  position: absolute;
+  top: 70px;
+  left: 25px;
+  width: 50px;              /* tamaño del contenedor */
+  height: 50px;
+  border-radius: 50%;       /* círculo */
+  background-color: rgba(20, 20, 20, 0.3); /* fondo transparente */
+  display: flex;            /* para centrar la imagen */
+  justify-content: left;
+  align-items: left;
+}
+
+/* --- Íconos internos --- */
+.icon {
+  width: 100%;
+  /* la imagen ocupa parte del círculo */
+  height: 70%;
+  object-fit: contain;
+}
+
+.invertida {
+  filter: invert(100%);
+}
+
+
+/* Contenedor de Contenido Principal (BOTONES DE MODOS DE JUEGO) */
+
+
+.menu {
+  width: 300px;
+  height: 300px;
+  margin: 20px auto;
+  background-color: rgba(20, 20, 20, 0.3);
+
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  top: 100px;
+  position: relative;
+}
+
+/* parte de arriba */
+.menu-header {
+  background-color: #4b2e1c;
+  /* marrón oscuro */
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+/* divisor */
+.menu-divider {
+  border: none;
+  border-top: 2px solid rgb(202, 202, 202);
+  margin: 15px 0;
+  width: auto;
+}
+
+/* imagen decorativa */
+.menu-body {
+  position: relative;
+}
+
+.menu-img {
+  width: 100%;
+  display: block;
+  bottom: 45px;
+  position: relative;
+}
+
+/* opciones dentro de la imagen */
+.menu-options {
+  position: absolute;
+  top: 63px;
+  left: 0;
+  width: 100%;
+  display: flex
+;
+  flex-direction: column;
+  gap: 9px;
+  align-items: center;
+  font-family: 'Cinzel', serif;
+}
+
+/* botones */
+.menu-btn {
+  display: flex;                 /* ahora es bloque flexible */
+  justify-content: center;       /* centra el texto horizontal */
+  align-items: center;           /* centra el texto vertical */
+  
+  width: 200px;                  /* ancho del botón */
+  height: 50px;                  /* alto del botón */
+
+  background: transparent;       /* o un color / imagen */
+  border: none;
+  border-radius: 8px;            /* opcional */
+  
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Cinzel', serif;
+
+  cursor: pointer;
+  text-decoration: none;         /* quita subrayado si es <a> */
+}
+
+.config-body {
+  position: relative;
+}
+
+.config-img{
+  width: 100%;
+  display: block;
+  bottom: 45px;
+  position: relative;
+  height: 550px;
+  width: 400px;
+  top: 5px;
+}
+
+/* NAVBAR INFERIOR */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  background-color: rgba(20, 20, 20, 0.3);  /* mismo fondo que tu diseño */
+  border-top: 2px solid #4b2e1c;
+  height: 70px;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  flex: 1;
+  padding: 5px 0;
+}
+
+.nav-item img {
+  height: 30px;
+  width: 30px;
+}
+
+.nav-text {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  margin-top: 3px;
+  display: none;  /* 👈 oculto por defecto */
+}
+
+.nav-item.active {
+  background-color: #4b2e1c;   /* marrón oscuro */
+  border-radius: 6px 6px 0 0;  /* esquinas redondeadas arriba */
+}
+
+.nav-item.active .nav-text {
+  display: block;
+}
