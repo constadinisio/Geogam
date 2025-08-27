@@ -19,10 +19,15 @@
     <p id="copyright">©Marzzatino</p>
   </div>
 
+  <script type="module" src="../backend/scripts/auth/auth.js"></script>
+  <script type="module">
+    import { checkAuthState } from '../backend/scripts/auth/auth.js';
 
+    // Verificar estado de autenticación al cargar la página
+    checkAuthState();
+  </script>
 
   <!-- Contenido principal de la app (oculto al inicio) -->
-
 
 
   <div id="main-content">
@@ -82,7 +87,7 @@
     
   </div>
 
-  <script src="../backend/scripts/carga.js"></script>
+  <script src="../backend/scripts/misc/pantallaCarga.js"></script>
 </body>
 
 </html>

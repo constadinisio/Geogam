@@ -60,10 +60,10 @@ body {
 }
 
 #main-content {
-  display: none;
   padding: 20px;
   width: 100vw;
   height: 100vh;
+  overflow-y: hidden;
 }
 
 .carga {
@@ -121,15 +121,23 @@ hr {
 
 .btn-volver {
   position: absolute;
-  top: 70px;
-  left: 25px;
-  width: 50px;              /* tamaño del contenedor */
-  height: 50px;
+  top: 60px;
+  left: 30px;
+  width: 70px;              /* tamaño del contenedor */
+  height: 70px;
   border-radius: 50%;       /* círculo */
   background-color: rgba(20, 20, 20, 0.3); /* fondo transparente */
   display: flex;            /* para centrar la imagen */
-  justify-content: left;
-  align-items: left;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-volver img  {
+  width: 45px;
+  height: 45px;
+  position: relative;
+  top: 1px;
+  right: 1px;
 }
 
 /* --- Íconos internos --- */
@@ -228,18 +236,117 @@ hr {
 }
 
 .config-body {
+  width: 400px;
+  height: 550px;
+  background-image: url("../images/pergamino-final.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;  /* ahora los hijos se apilan */
+  align-items: center;     /* centrado horizontal */
+  padding-top: 30px;       /* bajar un poco todo */
+}
+
+
+.config-header {
+  background-color: #4b2e1c;
+  color: white;
+  font-family: 'Cinzel', serif;
+  font-weight: bold;
+  padding: 8px 15px;
+  border-radius: 20px;
+  margin-bottom: 35px;   /* espacio con el hr */
+  position: relative;
+  top: 35px;
+
+}
+
+.hr-config {
+  border: none;
+  border-top: 2px solid rgb(0, 0, 0);
+  margin: 15px;
+  width: 80%;
+  align-items:center;
+}
+
+
+/* Sonido texto */
+
+.label-box {
+  background-color: #b17c3d;
+  color: white;
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin-left: 30px;
+  font-size: 20px;
+}
+
+.label-box p {
+  font-size: 16px;
+  padding: 0;
+}
+
+.sonido {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* separación entre texto y slider */
+  margin-top: 20px;
+}
+
+.volume-container {
+  width: 180px;
+  height: 60px;
+  background: url("../images/slider-bg.png") no-repeat center;
+  background-size: contain;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+
+}
+
+/* Estilo del slider */
+#volume {
+  -webkit-appearance: none; /* quitar estilo por defecto */
+  width: 80%;
+  background: transparent;
+  cursor: pointer;
   position: relative;
 }
 
-.config-img{
-  width: 100%;
-  display: block;
-  bottom: 45px;
-  position: relative;
-  height: 550px;
-  width: 400px;
-  top: 5px;
+/* Línea */
+#volume::-webkit-slider-runnable-track {
+  height: 6px;
+  background: #8b5a2b;
+  border-radius: 3px;
 }
+#volume::-moz-range-track {
+  height: 6px;
+  background: #8b5a2b;
+  border-radius: 3px;
+}
+
+/* Botón circular */
+#volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background: #a46a2c;
+  border: 2px solid #5a3c1a;
+  margin-top: -10px; /* centra con la línea */
+}
+#volume::-moz-range-thumb {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background: #a46a2c;
+  border: 2px solid #5a3c1a;
+}
+
 
 /* NAVBAR INFERIOR */
 .navbar {

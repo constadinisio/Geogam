@@ -16,18 +16,35 @@
 
       <!-- Botón volver -->
       
-      <a href="../index.html" class="btn-volver">
+      <a href="../menu.html" class="btn-volver">
         <img src="../images/boton-salir.png" alt="volver">
       </a>
     
       <!-- config -->
 
       <div class="config-body">
-        <img src="../images/pergamino-final.png" alt="Decoración" class="config-img">
-    
-    
+        <div class="config-header">CONFIGURACION</div>
+        
+        <hr class="hr-config">
+      
+        <div class="sonido">
+          <div class="label-box">
+            <p>Sonido UX/UI</p>
+          </div>
+          
+          <audio id="audio" controls hidden>
+            <source src="tu-audio.mp3" type="audio/mp3">
+          </audio>
+        
+          <div class="volume-container">
+            <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5">
+          </div>
         </div>
+
+        <script src="../../backend/scripts/utils/controladorAudio.js"></script>
       </div>
+
+      
 
     <!-- barra de navegación -->
 
@@ -37,7 +54,7 @@
         <span class="nav-text">TIENDA</span>
       </a>
     
-      <a href="../index.html" class="nav-item active">
+      <a href="../menu.html" class="nav-item">
         <img src="../images/boton-castle.png" alt="Menu">
         <span class="nav-text">MENU</span>
       </a>
@@ -52,8 +69,15 @@
         <span class="nav-text">ESTADISTICAS</span>
       </a>
     </div>
-    
-  </div>
+
+    <script type="module" src="../../backend/config/firebase-config.js"></script>
+    <script type="module" src="../../backend/scripts/auth/auth.js"></script>
+    <script type="module">
+      import { checkAuthState, logout } from '../backend/scripts/auth/auth.js';
+
+      // Verificar estado de autenticación al cargar la página
+      checkAuthState();
+    </script>
 </body>
 
 </html>
