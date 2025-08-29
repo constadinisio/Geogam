@@ -50,42 +50,78 @@
       <div class="menu-header">
         MODOS DE JUEGO
       </div>
-    
+
       <hr class="menu-divider">
-    
+
       <div class="menu-body">
         <img src="./images/menu_select.png" alt="Decoración" class="menu-img">
-    
+
         <div class="menu-options">
           <button class="menu-btn">ONLINE</button>
           <button class="menu-btn">OFFLINE</button>
         </div>
       </div>
-    </div>    
+    </div>
 
     <div class="navbar">
       <a href="./subpages/tienda.html" class="nav-item">
         <img src="./images/cofre.png" alt="Tienda">
         <span class="nav-text">TIENDA</span>
       </a>
-    
+
       <a href="./subpages/menu.html" class="nav-item active">
         <img src="images/boton-castle.png" alt="Menu">
         <span class="nav-text">MENU</span>
       </a>
-    
+
       <a href="./subpages/misiones.html" class="nav-item">
         <img src="./images/boton-mision.png" alt="Misiones">
         <span class="nav-text">MISIONES</span>
       </a>
-    
+
       <a href="./subpages/estadisticas.html" class="nav-item">
         <img src="./images/estadisticas.png" alt="Estadísticas">
         <span class="nav-text">ESTADISTICAS</span>
       </a>
     </div>
-    
+
   </div>
+
+  <!-- Agrega la etiqueta de audio aquí -->
+  <audio id="background-music" loop>
+    <source src="./audio/background_music.mp3" type="audio/mpeg">
+    <!-- Puedes agregar otras fuentes para compatibilidad con navegadores -->
+    <!-- <source src="./audio/background_music.ogg" type="audio/ogg"> -->
+    Tu navegador no soporta el elemento de audio.
+  </audio>
+
+
+  <script src="../backend/scripts/misc/pantallaCarga.js"></script>
+  <script type="module" src="../backend/config/firebase-config.js"></script>
+  <script type="module" src="../backend/scripts/auth/auth.js"></script>
+
+  <!-- Enlaza musicPlayer.js como módulo -->
+  <script type="module" src="../backend/scripts/misc/musicPlayer.js"></script>
+
+  <!-- Script para iniciar la música después de que el DOM esté cargado -->
+  <script type="module">
+    import { playMusic } from '../backend/scripts/misc/musicPlayer.js';
+    import { checkAuthState, logout } from '../backend/scripts/auth/auth.js';
+
+    // Verificar estado de autenticación al cargar la página
+    checkAuthState();
+
+    // Adjuntar la función logout a un botón si está en esta página
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+      logoutButton.addEventListener('click', logout);
+    }
+
+    // Iniciar la música cuando el DOM esté completamente cargado
+    document.addEventListener('DOMContentLoaded', () => {
+      playMusic();
+    });
+  </script>
 
   <script src="../backend/scripts/misc/pantallaCarga.js"></script>
 </body>
