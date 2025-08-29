@@ -29,7 +29,7 @@ export function checkAuthState() {
   onAuthStateChanged(auth, (user) => {
     if (!user) {
       console.log("Usuario no logueado. Redirigiendo a login.");
-      window.location.href = "login.html"; // Ajusta la ruta si es necesario
+      window.location.href = "/public/login.html"; // Ajusta la ruta si es necesario
     }
   });
 }

@@ -43,6 +43,4 @@ export function setVolume(volume) {
   }
 }
 
-// Opcional: reproducir la música al cargar el script,
-// pero ten en cuenta las políticas de reproducción automática del navegador.
-// playMusic();
+playMusic();

@@ -14,21 +14,6 @@
   <body>
     <button id="logoutButton">Cerrar Sesión</button>
 
-    <script type="module" src="../backend/config/firebase-config.js"></script>
-    <script type="module" src="../backend/scripts/auth/auth.js"></script>
-    <script type="module">
-      import { checkAuthState, logout } from "../backend/scripts/auth/auth.js";
-
-      // Verificar estado de autenticación al cargar la página
-      checkAuthState();
-
-      // Adjuntar la función logout a un botón si está en esta página
-      const logoutButton = document.getElementById("logoutButton");
-      if (logoutButton) {
-        logoutButton.addEventListener("click", logout);
-      }
-    </script>
-
     <div id="main-content">
       <!-- Botones de Configuración y Perfil-->
       <div class="botones">
@@ -42,7 +27,7 @@
         </a>
 
         <!-- Botón perfil -->
-        <a href="/subpages/perfil.html" class="btn perfil">
+        <a href="/public/subpages/perfil.html" class="btn perfil">
           <img
             src="./images/user.png"
             alt="Perfil"
@@ -103,6 +88,53 @@
       <img src="images/reloj_arena.gif" alt="Cargando..." class="carga" />
       <p id="copyright">©Marzzatino</p>
     </div>
+
+    <audio id="background-music" loop>
+      <source src="./audio/background_music.wav" type="audio/wav"> <!-- TYPE CAMBIADO -->
+      <!-- Puedes agregar otras fuentes para compatibilidad con navegadores -->
+      <!-- <source src="./audio/background_music.ogg" type="audio/ogg"> -->
+      Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <script type="module" src="../backend/config/firebase-config.js"></script>
+    <script type="module" src="../backend/scripts/auth/auth.js"></script>
+
+    <!-- Enlaza musicPlayer.js como módulo (SOLO UNA VEZ) -->
+    <script type="module" src="../backend/scripts/misc/musicPlayer.js"></script>
+
+    <!-- Script para iniciar la música y aplicar volumen guardado -->
+    <script type="module">
+      import { playMusic, setVolume } from '../backend/scripts/misc/musicPlayer.js'; // Importa setVolume
+      import { checkAuthState, logout } from '../backend/scripts/auth/auth.js';
+
+      // Verificar estado de autenticación al cargar la página
+      checkAuthState();
+
+      // Adjuntar la función logout a un botón si está en esta página
+      const logoutButton = document.getElementById('logoutButton');
+      if (logoutButton) {
+        logoutButton.addEventListener('click', logout);
+      }
+
+      // Iniciar la música y aplicar volumen guardado cuando el DOM esté completamente cargado
+      document.addEventListener('DOMContentLoaded', () => {
+        // Leer el volumen guardado de localStorage
+        const savedVolume = localStorage.getItem('musicVolume');
+
+        if (savedVolume !== null) {
+          // Si hay un volumen guardado, aplícalo a la música
+          setVolume(parseFloat(savedVolume));
+          console.log("Volumen de música cargado desde localStorage:", savedVolume);
+        } else {
+          // Si no hay volumen guardado, puedes establecer un volumen por defecto (opcional)
+           setVolume(0.5); // Por ejemplo, un volumen por defecto de 0.5
+           console.log("No hay volumen guardado, estableciendo volumen por defecto (0.5).");
+        }
+
+        playMusic(); // Iniciar la reproducción de la música
+      });
+    </script>
+
     <script src="../backend/scripts/misc/pantallaCarga.js"></script>
   </body>
 </html>

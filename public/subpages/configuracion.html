@@ -11,73 +11,105 @@
 
 <body>
 
-    <!-- Botones de Configuración y Perfil-->
-    
+  <!-- Botones de Configuración y Perfil-->
 
-      <!-- Botón volver -->
-      
-      <a href="../menu.html" class="btn-volver">
-        <img src="../images/boton-salir.png" alt="volver">
-      </a>
-    
-      <!-- config -->
 
-      <div class="config-body">
-        <div class="config-header">CONFIGURACION</div>
-        
-        <hr class="hr-config">
-      
-        <div class="sonido">
-          <div class="label-box">
-            <p>Sonido UX/UI</p>
-          </div>
-          
-          <audio id="audio" controls hidden>
-            <source src="tu-audio.mp3" type="audio/mp3">
-          </audio>
-        
-          <div class="volume-container">
-            <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5">
-          </div>
-        </div>
+  <!-- Botón volver -->
 
-        <script src="../../backend/scripts/utils/controladorAudio.js"></script>
+  <a href="../menu.html" class="btn-volver">
+    <img src="../images/boton-salir.png" alt="volver">
+  </a>
+
+  <!-- config -->
+
+  <div class="body-pergamino">
+    <div class="pergamino-header">CONFIGURACION</div>
+
+    <hr class="hr-body">
+
+    <div class="sonido">
+      <div class="label-box">
+        <p>Sonido UX/UI</p>
       </div>
 
-      
+      <!-- CAMBIAR EL ID DEL AUDIO Y CORREGIR EL TYPE DE LA FUENTE -->
+      <audio id="background-music" loop hidden>
+        <source src="../audio/background_music.wav" type="audio/wav"> <!-- CAMBIADO -->
+        <!-- Si también tienes un mp3 para compatibilidad: -->
+        <!-- <source src="../audio/background_music.mp3" type="audio/mpeg"> -->
+      </audio>
 
-    <!-- barra de navegación -->
-
-    <div class="navbar">
-      <a href="tienda.html" class="nav-item">
-        <img src="../images/cofre.png" alt="Tienda">
-        <span class="nav-text">TIENDA</span>
-      </a>
-    
-      <a href="../menu.html" class="nav-item">
-        <img src="../images/boton-castle.png" alt="Menu">
-        <span class="nav-text">MENU</span>
-      </a>
-    
-      <a href="misiones.html" class="nav-item">
-        <img src="../images/boton-mision.png" alt="Misiones">
-        <span class="nav-text">MISIONES</span>
-      </a>
-    
-      <a href="estadisticas.html" class="nav-item">
-        <img src="../images/estadisticas.png" alt="Estadísticas">
-        <span class="nav-text">ESTADISTICAS</span>
-      </a>
+      <div class="volume-container">
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5"> <!-- ID CAMBIADO -->
+      </div>
     </div>
 
-    <script type="module" src="../../backend/config/firebase-config.js"></script>
-    <script type="module" src="../../backend/scripts/auth/auth.js"></script>
-    <script type="module">
-      import { checkAuthState, logout } from '../backend/scripts/auth/auth.js';
+    <!-- Enlaza musicPlayer.js como módulo -->
+    <script type="module" src="../../backend/scripts/misc/musicPlayer.js"></script>
 
-      // Verificar estado de autenticación al cargar la página
-      checkAuthState();
-    </script>
+    <!-- Script para controlar el volumen E iniciar la música -->
+    <script type="module">
+      import { setVolume, playMusic } from '../../backend/scripts/misc/musicPlayer.js'; // Importa playMusic
+    
+      // CAMBIAR EL ID DEL ELEMENTO BUSCADO A 'volume'
+      const volumeSlider = document.getElementById('volume'); // ID CAMBIADO
+    
+      // Iniciar la música al cargar la página
+      document.addEventListener('DOMContentLoaded', () => {
+        playMusic(); // Llama a playMusic para iniciar la reproducción
+      });
+    
+    
+      if (volumeSlider) {
+        const savedVolume = localStorage.getItem('musicVolume');
+        if (savedVolume !== null) {
+          volumeSlider.value = savedVolume;
+          setVolume(parseFloat(savedVolume)); // Establece el volumen al cargar
+        } else {
+          setVolume(parseFloat(volumeSlider.value)); // Establece el volumen inicial del slider si no hay guardado
+        }
+    
+    
+        volumeSlider.addEventListener('input', (event) => {
+          const volume = parseFloat(event.target.value);
+          setVolume(volume);
+          localStorage.setItem('musicVolume', volume); // DESCOMENTADO
+        });
+      }
+    </script>    
+  </div>
+
+  <!-- barra de navegación -->
+  <div class="navbar">
+    <a href="../tienda.html" class="nav-item">
+      <img src="../images/cofre.png" alt="Tienda">
+      <span class="nav-text">TIENDA</span>
+    </a>
+
+    <a href="../menu.html" class="nav-item">
+      <img src="../images/boton-castle.png" alt="Menu">
+      <span class="nav-text">MENU</span>
+    </a>
+
+    <a href="../misiones.html" class="nav-item">
+      <img src="../images/boton-mision.png" alt="Misiones">
+      <span class="nav-text">MISIONES</span>
+    </a>
+
+    <a href="../estadisticas.html" class="nav-item">
+      <img src="../images/estadisticas.png" alt="Estadísticas">
+      <span class="nav-text">ESTADISTICAS</span>
+    </a>
+  </div>
+
+  <script type="module" src="../../backend/config/firebase-config.js"></script>
+  <script type="module" src="../../backend/scripts/auth/auth.js"></script>
+  <script type="module">
+    import { checkAuthState, logout } from '../../backend/scripts/auth/auth.js';
+
+    // Verificar estado de autenticación al cargar la página
+    checkAuthState();
+  </script>
 </body>
 
 </html>
