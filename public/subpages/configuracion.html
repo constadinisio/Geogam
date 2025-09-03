@@ -29,7 +29,7 @@
 
     <div class="sonido">
       <div class="label-box">
-        <p>Sonido UX/UI</p>
+        <p class="p1">Sonido UX/UI</p>
       </div>
 
       <!-- CAMBIAR EL ID DEL AUDIO Y CORREGIR EL TYPE DE LA FUENTE -->
@@ -44,39 +44,69 @@
       </div>
     </div>
 
+    <div class="sonido">
+      <div class="label-box">
+        <p class="p2">Efectos de sonido</p>
+      </div>
+
+      <!-- Efecto de prueba -->
+      <audio id="click-sound" src="../audio/click-4.mp3" preload="auto"></audio>
+
+      <div class="volume-container">
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5">
+      </div>
+    </div>
+
+    <button class="click-sound">boton probar</button>
+
     <!-- Enlaza musicPlayer.js como módulo -->
     <script type="module" src="../../backend/scripts/misc/musicPlayer.js"></script>
 
     <!-- Script para controlar el volumen E iniciar la música -->
     <script type="module">
-      import { setVolume, playMusic } from '../../backend/scripts/misc/musicPlayer.js'; // Importa playMusic
-    
-      // CAMBIAR EL ID DEL ELEMENTO BUSCADO A 'volume'
-      const volumeSlider = document.getElementById('volume'); // ID CAMBIADO
-    
-      // Iniciar la música al cargar la página
+      import { setVolume, playMusic } from '../../backend/scripts/misc/musicPlayer.js';
+
+      // 🎵 Música de fondo (igual que antes)
+      const volumeSlider = document.getElementById('volume');
       document.addEventListener('DOMContentLoaded', () => {
-        playMusic(); // Llama a playMusic para iniciar la reproducción
+        playMusic();
       });
-    
-    
+
       if (volumeSlider) {
         const savedVolume = localStorage.getItem('musicVolume');
         if (savedVolume !== null) {
           volumeSlider.value = savedVolume;
-          setVolume(parseFloat(savedVolume)); // Establece el volumen al cargar
+          setVolume(parseFloat(savedVolume));
         } else {
-          setVolume(parseFloat(volumeSlider.value)); // Establece el volumen inicial del slider si no hay guardado
+          setVolume(parseFloat(volumeSlider.value));
         }
-    
-    
+
         volumeSlider.addEventListener('input', (event) => {
           const volume = parseFloat(event.target.value);
           setVolume(volume);
-          localStorage.setItem('musicVolume', volume); // DESCOMENTADO
+          localStorage.setItem('musicVolume', volume);
         });
       }
-    </script>    
+    </script>
+    
+    <script type="module">
+      import { setEffectsVolume, playClickSound, wireClickSound } from "../../backend/scripts/misc/soundEffects.js";
+    
+      wireClickSound();
+    
+      const effectsSlider = document.getElementById("effects-volume");
+      if (effectsSlider) {
+        const saved = localStorage.getItem("effectsVolume");
+        if (saved !== null) effectsSlider.value = saved;
+        setEffectsVolume(effectsSlider.value);
+    
+        effectsSlider.addEventListener("input", (e) => {
+          setEffectsVolume(e.target.value);
+          playClickSound(); // preview
+        });
+      }
+    </script>
+
   </div>
 
   <!-- barra de navegación -->

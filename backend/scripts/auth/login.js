@@ -1,5 +1,8 @@
 // login.js
 
+
+
+
 // 1. Importar las funciones necesarias del SDK de Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {

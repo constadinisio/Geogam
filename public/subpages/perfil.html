@@ -28,23 +28,23 @@
     <hr class="hr-body">
 
     <div> <!-- Caja de texto del nombre -->
-      
-      </div>
 
-      <div>
-        <div class="profile-box">
-          <div class="profile-title">FOTO DE PERFIL</div>
-          <hr class="profile-hr">
-        
-          <div class="profile-buttons">
-            <button class="profile-btn">VER</button>
-            <button class="profile-btn">EDITAR</button>
-            <button class="profile-btn">AÑADIR</button>
-            <button class="profile-btn">REMOVER</button>
-          </div>
+    </div>
+
+    <div>
+      <div class="profile-box">
+        <div class="profile-title">FOTO DE PERFIL</div>
+        <hr class="profile-hr">
+
+        <div class="profile-buttons">
+          <button class="profile-btn">VER</button>
+          <button class="profile-btn">EDITAR</button>
+          <button class="profile-btn">AÑADIR</button>
+          <button class="profile-btn">REMOVER</button>
         </div>
       </div>
     </div>
+  </div>
   </div>
 
 
@@ -72,6 +72,45 @@
       <span class="nav-text">ESTADISTICAS</span>
     </a>
   </div>
+
+  <!-- Elemento de Audio para la música de fondo -->
+  <audio id="background-music" loop>
+    <source src="../audio/background_music.wav" type="audio/wav">
+    Tu navegador no soporta el elemento de audio.
+  </audio>
+
+  <!-- Scripts de Firebase y Autenticación -->
+  <script type="module" src="../backend/config/firebase-config.js"></script>
+  <script type="module" src="../backend/scripts/auth/auth.js"></script>
+
+  <!-- Script del Reproductor de Música -->
+  <script type="module" src="../backend/scripts/misc/musicPlayer.js"></script>
+
+  <!-- Script para iniciar la música, aplicar volumen y verificar autenticación -->
+  <script type="module">
+    import { playMusic, setVolume } from '../backend/scripts/misc/musicPlayer.js';
+    import { checkAuthState, logout } from '../backend/scripts/auth/auth.js';
+
+    // Verificar estado de autenticación al cargar la página
+    checkAuthState();
+
+    // Adjuntar la función logout a un botón (si existe en la página)
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+      logoutButton.addEventListener('click', logout);
+    }
+
+    // Asegurarse de que el DOM está cargado antes de interactuar con él
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedVolume = localStorage.getItem('musicVolume');
+      if (savedVolume !== null) {
+        setVolume(parseFloat(savedVolume));
+      } else {
+        setVolume(0.5); // Volumen por defecto
+      }
+      playMusic();
+    });
+  </script>
 </body>
 
 </html>

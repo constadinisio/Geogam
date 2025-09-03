@@ -1,110 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registro de Jugador</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #4e73df, #1cc88a);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro - Marzzatino</title>
+  </head>
 
-        .form-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-            width: 350px;
-        }
+  <body>
+    <div id="main-content">
+      <div class="form-container">
+        <div class="title-container">CREAR CUENTA</div>
+        <hr />
+        <form id="form-registro">
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            placeholder="NOMBRE"
+            required
+          />
 
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
+          <input
+            type="text"
+            id="apellido"
+            name="apellido"
+            placeholder="APELLIDO"
+            required
+          />
 
-        .form-container label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: bold;
-            color: #444;
-        }
+          <input
+            type="text"
+            id="usuario"
+            name="usuario"
+            placeholder="USUARIO"
+            required
+          />
 
-        .form-container input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="CORREO ELECTRÓNICO"
+            required
+          />
 
-        .form-container input:focus {
-            border-color: #4e73df;
-            outline: none;
-        }
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="CONTRASEÑA"
+            required
+          />
 
-        .form-container button {
-            width: 100%;
-            padding: 12px;
-            background: #4e73df;
-            border: none;
-            color: #fff;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+          <div id="mensaje-error" class="error-message"></div>
 
-        .form-container button:hover {
-            background: #375ac2;
-        }
-
-        .form-container .link {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .form-container .link a {
-            color: #1cc88a;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .form-container .link a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="form-container">
-        <h2>Crear Cuenta</h2>
-        <form id="registrationForm" method="POST">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" required>
-            <label for="apellido">Apellido</label>
-            <input type="text" id="apellido" name="apellido" required>
-            <label for="usuario">Usuario</label>
-            <input type="text" id="usuario" name="usuario" required>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-            <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="submit">Registrarse</button>
+          <button type="submit">REGISTRARSE</button>
         </form>
-        <div class="link">
-            ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
-        </div>
-    </div>
 
-    <script type="module" src="../backend/scripts/auth/registro.js"></script>
-</body>
+        <div class="link">
+          ¿YA TIENES CUENTA? <a href="login.html">INICIA SESIÓN</a>
+        </div>
+      </div>
+
+      <script type="module" src="../backend/scripts/auth/registro.js"></script>
+    </div>
+  </body>
 </html>

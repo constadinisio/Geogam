@@ -1,106 +1,40 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Iniciar Sesión</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #4e73df, #1cc88a);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-        }
-
-        .form-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-            width: 350px;
-        }
-
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .form-container label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: bold;
-            color: #444;
-        }
-
-        .form-container input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
-
-        .form-container input:focus {
-            border-color: #4e73df;
-            outline: none;
-        }
-
-        .form-container button {
-            width: 100%;
-            padding: 12px;
-            background: #1cc88a;
-            border: none;
-            color: #fff;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .form-container button:hover {
-            background: #17a673;
-        }
-
-        .form-container .link {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .form-container .link a {
-            color: #4e73df;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .form-container .link a:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="./styles/styles.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marzzatino</title>
 </head>
+
 <body>
-
+  <div id="main-content">
     <div class="form-container">
-        <h2>Iniciar Sesión</h2>
-        <form id="form-login">
-            <label for="email">Correo electrónico</label>
-            <input type="email" id="email" name="email" required>
+      <div class="title-container">INICIA SESIÓN</div>
+      <hr>
+      <form id="form-login">
+        <input type="email" id="email" name="email" placeholder="CORREO ELECTRONICO" required>
 
-            <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" name="contrasena" required>
+        <input type="password" id="contrasena" name="contrasena" placeholder="CONTRASEÑA" required>
 
-            <div id="mensaje-error" class="error-message"></div>
+        <div id="mensaje-error" class="error-message" style="color: white;"></div>
 
-            <button type="submit">Entrar</button>
-        </form>
-        <div class="link">
-            ¿No tienes cuenta? <a href="registro.html">Regístrate</a>
-        </div>
+        <button type="submit click-sound">ENTRAR</button>
+      </form>
+      <div class="link">
+        ¿NO TIENES CUENTA? <a href="registro.html">REGISTRATE</a>
+      </div>
     </div>
     <script type="module" src="../backend/scripts/auth/login.js"></script>
+  </div>
+
+  <script type="module">
+    import { wireClickSound } from "../../backend/scripts/misc/soundEffects.js";
+    wireClickSound(); // sonido al hacer clic en botones/links
+  </script>
+
 </body>
+
 </html>
