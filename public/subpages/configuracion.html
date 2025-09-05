@@ -29,7 +29,7 @@
 
     <div class="sonido">
       <div class="label-box">
-        <p class="p1">Sonido UX/UI</p>
+        <p>Sonido UX/UI</p>
       </div>
 
       <!-- CAMBIAR EL ID DEL AUDIO Y CORREGIR EL TYPE DE LA FUENTE -->
@@ -44,23 +44,30 @@
       </div>
     </div>
 
-    <div class="sonido">
+    <div class="sonido2">
       <div class="label-box">
-        <p class="p2">Efectos de sonido</p>
+        <p>Efectos de <br> sonido</p>
       </div>
 
       <!-- Efecto de prueba -->
       <audio id="click-sound" src="../audio/click-4.mp3" preload="auto"></audio>
-
+      <div class="fondoslider">
       <div class="volume-container">
-        <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5">
+        <input type="range" id="effects-volume" min="0" max="1" step="0.01" value="0.5">
       </div>
+    </div>
     </div>
 
     <button class="click-sound">boton probar</button>
 
+
+
+
+
     <!-- Enlaza musicPlayer.js como módulo -->
     <script type="module" src="../../backend/scripts/misc/musicPlayer.js"></script>
+
+
 
     <!-- Script para controlar el volumen E iniciar la música -->
     <script type="module">
@@ -107,7 +114,11 @@
       }
     </script>
 
+
   </div>
+
+
+  
 
   <!-- barra de navegación -->
   <div class="navbar">

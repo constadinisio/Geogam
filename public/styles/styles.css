@@ -277,21 +277,23 @@ hr {
   background-color: #b17c3d;
   color: white;
   font-family: "Cinzel", serif;
-  font-size: 20px;
+  font-size: 16px;
   padding: 10px 20px;
   border-radius: 20px;
   margin-left: 30px;
-  font-size: 20px;
+  display: flex;
+  align-items: center;  /* centra el texto verticalmente */
+  justify-content: center;
+  width: 100px;   /* ancho fijo */
+  height: 30px;   /* alto fijo */
+  text-align: center; /* centra el texto multi-línea */
 }
 
-.p1 {
-  font-size: 16px;
-  padding: 0;
-}
-
-.p2 {
+.label-box p {
+  margin: 0;
+  line-height: 1.2; /* ajusta altura del texto */
+  text-align: center;
   font-size: 13px;
-  padding: 0;
 }
 
 .sonido {
@@ -301,6 +303,32 @@ hr {
   margin-top: 20px;
 }
 
+.sonido2 {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* separación entre texto y slider */
+  margin-top: 20px;
+}
+
+
+.fondoslider {
+  background: url("../img/slider_final.png") no-repeat center;
+  background-size: contain;   /* ajusta la imagen al tamaño del contenedor */
+  width: 250px;               /* ajustá al ancho de tu imagen */
+  height: 80px;               /* ajustá a la altura de tu imagen */
+  display: flex;
+  align-items: center;        /* centra el slider verticalmente */
+  justify-content: center;    /* centra el slider horizontalmente */
+  position: relative;
+}
+
+.fondoslider input[type="range"] {
+  width: 70%;          /* que no ocupe todo el ancho del marco */
+  position: relative;  /* se mantiene dentro del div */
+  z-index: 2;          /* queda encima del fondo */
+}
+
+ 
 .volume-container {
   width: 180px;
   height: 60px;
@@ -349,6 +377,49 @@ hr {
   border: 2px solid #5a3c1a;
 }
 
+
+/* Slider de Efectos de sonido */
+
+
+#effects-volume{
+  -webkit-appearance: none; /* quitar estilo por defecto */
+  width: 80%;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+#effects-volume::-moz-range-track {
+  height: 6px;
+  background: #8b5a2b;
+  border-radius: 3px;
+}
+
+/* Botón circular */
+#effects-volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background: #a46a2c;
+  border: 2px solid #5a3c1a;
+  margin-top: -10px; /* centra con la línea */
+}
+#effects-volume::-moz-range-thumb {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background: #a46a2c;
+  border: 2px solid #5a3c1a;
+}
+
+#effects-volume::-webkit-slider-runnable-track {
+  height: 6px;
+  background: #8b5a2b;
+  border-radius: 3px;
+}
+
+
 /* Perfil */
 
 .profile-title {
@@ -357,7 +428,7 @@ hr {
   font-weight: bold;
   background-color: #8b5a2b; /* marrón clarito */
   color: white;
-  padding: 8px 10px;
+  padding: 9px 10px;
   border-radius: 10px;
   margin-bottom: 8px;
 }
@@ -378,24 +449,55 @@ hr {
   margin: 10px 0 15px 0;
 }
 
+.name-user{
+  background: url("../images/slider_final.png")
+  no-repeat center center;
+  background-size: 180% 100%;
+}
 .profile-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px; /* espacio entre botones */
+  gap: 15px;
+  margin-left: 10px; /* espacio entre botones */
 }
 
 .profile-btn {
-  font-family: "Cinzel", serif;
-  background-color: #c58a2a;
-  color: white;
+  background: url("../images/fondo-boton1.png") no-repeat center center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;   /* La imagen se ajusta al botón */
   border: none;
-  padding: 8px;
-  border-radius: 10px;
-  font-weight: bold;
+  color: rgb(255, 255, 255);              /* Color del texto */
+  font-family: 'Cinzel', serif; /* Para que combine con tu estilo */
+  font-size: 16px;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: transform 0.2s;
 }
 
+.profile-btn:hover {
+  transform: scale(1.1);
+}
+
+#logoutButton {
+  background: url("../images/fondo-boton1.png") no-repeat center center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;   /* La imagen se ajusta al botón */
+  border: none;
+  color: rgb(255, 255, 255);              /* Color del texto */
+  font-family: 'Cinzel', serif; /* Para que combine con tu estilo */
+  font-size: 16px;
+  width: 140px;
+  height: 45px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#logoutButton:hover {
+  transform: scale(1.1);
+}
 /* NAVBAR INFERIOR */
 .navbar {
   position: fixed;
