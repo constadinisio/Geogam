@@ -452,7 +452,7 @@ hr {
 .name-user{
   background: url("../images/slider_final.png")
   no-repeat center center;
-  background-size: 180% 100%;
+  background-size: 200% 200%;
 }
 .profile-buttons {
   display: grid;
