@@ -1,78 +1,89 @@
-// import { initializeApp } from "firebase/app"; // Elimina o comenta esta línea
-// import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"; // Elimina o comenta esta línea
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { auth, database } from "../../config/firebase-config.js";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+const registrationForm = document.getElementById("registrationForm");
+const errorMessageDiv = document.getElementById("errorMessage");
 
-// Tu configuración de Firebase aquí
-const firebaseConfig = {
-  apiKey: "AIzaSyBlNPoDmKgQLo1o__FHoXURa61Rbx5yuno",
-  authDomain: "geogam-1700b.firebaseapp.com",
-  projectId: "geogam-1700b",
-  storageBucket: "geogam-1700b.appspot.com",
-  messagingSenderId: "1007484716725",
-  appId: "1:1007484716725:web:4ba44e16a5ed76e59060fc",
-};
+if (!registrationForm) {
+    console.error("Error crítico: El formulario de registro #registrationForm no se encontró en la página.");
+} else {
+    registrationForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        console.log("Paso 1: El formulario de registro fue enviado.");
 
-// Inicializa Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+        const emailInput = registrationForm.querySelector("#email");
+        const passwordInput = registrationForm.querySelector("#password");
+        const nombreInput = registrationForm.querySelector("#nombre");
+        const apellidoInput = registrationForm.querySelector("#apellido");
+        const usuarioInput = registrationForm.querySelector("#usuario");
 
-const registrationForm = document.getElementById("registrationForm"); // Asume que tu formulario tiene este ID
-const errorMessageDiv = document.getElementById("errorMessage"); // Asume que tu div de errores tiene este ID
+        if (emailInput && passwordInput && nombreInput && apellidoInput && usuarioInput) {
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            const nombre = nombreInput.value;
+            const apellido = apellidoInput.value;
+            const usuario = usuarioInput.value;
 
-if (registrationForm) {
-  registrationForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    console.log("Evento submit del formulario detectado.");
+            console.log("Paso 2: Campos del formulario encontrados. Valores:", { email, password, nombre, apellido, usuario });
 
-    const emailInput = registrationForm.querySelector("#email"); // Asume que tu campo de email tiene este ID
-    const passwordInput = registrationForm.querySelector("#password"); // Asume que tu campo de contraseña tiene este ID
-    const nombreInput = registrationForm.querySelector("#nombre"); // Asume que tu campo de nombre tiene este ID
-    const apellidoInput = registrationForm.querySelector("#apellido"); // Asume que tu campo de apellido tiene este ID
-    const usuarioInput = registrationForm.querySelector("#usuario"); // Asume que tu campo de usuario tiene este ID
+            if (!email || !password || !nombre || !apellido || !usuario) {
+                console.error("Error: Uno o más campos del formulario están vacíos.");
+                if (errorMessageDiv) {
+                    errorMessageDiv.textContent = "Todos los campos son obligatorios.";
+                }
+                return; // Detener la ejecución
+            }
+            
+            console.log("Paso 3: Intentando crear el usuario en Firebase Auth...");
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log("Paso 4: ¡Éxito! Usuario creado en Firebase Auth con UID:", user.uid);
 
-    if (
-      emailInput &&
-      passwordInput &&
-      nombreInput &&
-      apellidoInput &&
-      usuarioInput
-    ) {
-      console.log("Campos de email y contraseña encontrados.");
-      const email = emailInput.value;
-      const password = passwordInput.value;
-      const nombre = nombreInput.value;
-      const apellido = apellidoInput.value;
-      const usuario = usuarioInput.value;
-
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Registro exitoso
-          const user = userCredential.user;
-          console.log("Usuario registrado:", user);
-          // Redirigir a la página de menú
-          window.location.href = "menu.html"; // Ajusta la URL si es necesario
-        })
-        .catch((error) => {
-          // Ocurrió un error
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.error("Error de registro:", errorCode, errorMessage);
-          // Mostrar mensaje de error al usuario
-          if (errorMessageDiv) {
-            errorMessageDiv.textContent = errorMessage;
-          }
-        });
-    } else {
-      console.log("Campos de email o contraseña NO encontrados.");
-      if (errorMessageDiv) {
-        errorMessageDiv.textContent =
-          "Error: Campos de email o contraseña no encontrados.";
-      }
-    }
-  });
+                    console.log("Paso 5: Intentando guardar datos adicionales en Realtime Database...");
+                    set(ref(database, 'users/' + user.uid), {
+                        nombre: nombre,
+                        apellido: apellido,
+                        usuario: usuario,
+                        email: email
+                    }).then(() => {
+                        console.log("Paso 6: ¡Éxito! Datos guardados en la base de datos.");
+                        console.log("Paso 7: Redirigiendo a la página de login...");
+                        window.location.href = "login.html"; // Redirección reactivada
+                    }).catch((dbError) => {
+                        console.error("Error en Paso 6: No se pudieron guardar los datos en la base de datos.", dbError);
+                        if(errorMessageDiv) {
+                            errorMessageDiv.textContent = "El usuario fue creado, pero hubo un error al guardar sus datos.";
+                        }
+                    });
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.error("Error en Paso 3: Falló la creación del usuario.", { errorCode, errorMessage });
+                    if (errorMessageDiv) {
+                        // Traducir errores comunes de Firebase
+                        switch (errorCode) {
+                            case 'auth/email-already-in-use':
+                                errorMessageDiv.textContent = 'El correo electrónico ya está en uso.';
+                                break;
+                            case 'auth/invalid-email':
+                                errorMessageDiv.textContent = 'El formato del correo electrónico no es válido.';
+                                break;
+                            case 'auth/weak-password':
+                                errorMessageDiv.textContent = 'La contraseña es demasiado débil. Debe tener al menos 6 caracteres.';
+                                break;
+                            default:
+                                errorMessageDiv.textContent = `Error de registro: ${errorMessage}`;
+                        }
+                    }
+                });
+        } else {
+            console.error("Error en Paso 2: No se encontraron todos los campos del formulario. Revisa los IDs: #email, #password, #nombre, #apellido, #usuario.");
+            if (errorMessageDiv) {
+                errorMessageDiv.textContent = "Error interno: Faltan campos en el formulario.";
+            }
+        }
+    });
 }

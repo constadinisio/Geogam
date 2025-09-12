@@ -290,52 +290,40 @@ hr {
 }
 
 .label-box p {
-  margin: 0;
+  margin-right;
   line-height: 1.2; /* ajusta altura del texto */
   text-align: center;
   font-size: 13px;
 }
 
-.sonido {
+.sonido, .sonido2 {
   display: flex;
   align-items: center;
-  gap: 15px; /* separación entre texto y slider */
+  gap: 15px; /* misma separación */
   margin-top: 20px;
+  margin-right: 20px; 
 }
 
-.sonido2 {
+.volume-container, .fondoslider {
+  background: url("/public/images/slider_final_3.png") no-repeat center;
+  background-size: 100% 100%; /* ocupa todo el div, no solo 'contain' */
+  width: 150px;   /* mismo ancho para ambos sliders */
+  height: 100px;
   display: flex;
   align-items: center;
-  gap: 15px; /* separación entre texto y slider */
-  margin-top: 20px;
-}
-
-
-.fondoslider {
-  background: url("../img/slider_final.png") no-repeat center;
-  background-size: contain;   /* ajusta la imagen al tamaño del contenedor */
-  width: 250px;               /* ajustá al ancho de tu imagen */
-  height: 80px;               /* ajustá a la altura de tu imagen */
-  display: flex;
-  align-items: center;        /* centra el slider verticalmente */
-  justify-content: center;    /* centra el slider horizontalmente */
+  justify-content: center;
   position: relative;
 }
-
+.volume-container input[type="range"],
 .fondoslider input[type="range"] {
-  width: 70%;          /* que no ocupe todo el ancho del marco */
-  position: relative;  /* se mantiene dentro del div */
-  z-index: 2;          /* queda encima del fondo */
+  width: 65%;
+  position: relative;
+  z-index: 2;
 }
-
  
 .volume-container {
-  width: 180px;
-  height: 60px;
   background-size: contain;
   display: flex;
-  align-items: left;
-  justify-content: left;
 }
 
 /* Estilo del slider */
@@ -449,10 +437,17 @@ hr {
   margin: 10px 0 15px 0;
 }
 
-.name-user{
-  background: url("../images/slider_final.png")
+.user-input{
+  background: url("../images/slider_final_3.png")
   no-repeat center center;
-  background-size: 200% 200%;
+  background: url("/public/images/slider_final_3.png") no-repeat center;
+  background-size: 100% 100%; /* ocupa todo el div, no solo 'contain' */
+  width: 150px;   /* mismo ancho para ambos sliders */
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 .profile-buttons {
   display: grid;
@@ -478,6 +473,21 @@ hr {
 
 .profile-btn:hover {
   transform: scale(1.1);
+}
+
+.profile-btn-ayuda {
+  background: url("../images/fondo-boton1.png") no-repeat center center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;   /* La imagen se ajusta al botón */
+  border: none;
+  color: rgb(255, 255, 255);              /* Color del texto */
+  font-family: 'Cinzel', serif; /* Para que combine con tu estilo */
+  font-size: 16px;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
 
 #logoutButton {

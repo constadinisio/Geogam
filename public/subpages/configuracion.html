@@ -39,13 +39,15 @@
         <!-- <source src="../audio/background_music.mp3" type="audio/mpeg"> -->
       </audio>
 
+      <div class="fondoslider">
       <div class="volume-container">
         <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5"> <!-- ID CAMBIADO -->
       </div>
     </div>
+    </div>
 
     <div class="sonido2">
-      <div class="label-box">
+      <div class="label-box" >
         <p>Efectos de <br> sonido</p>
       </div>
 
@@ -58,67 +60,71 @@
     </div>
     </div>
 
-    <button class="click-sound">boton probar</button>
-
-
-
-
-
-    <!-- Enlaza musicPlayer.js como módulo -->
-    <script type="module" src="../../backend/scripts/misc/musicPlayer.js"></script>
-
-
-
-    <!-- Script para controlar el volumen E iniciar la música -->
-    <script type="module">
-      import { setVolume, playMusic } from '../../backend/scripts/misc/musicPlayer.js';
-
-      // 🎵 Música de fondo (igual que antes)
-      const volumeSlider = document.getElementById('volume');
-      document.addEventListener('DOMContentLoaded', () => {
-        playMusic();
-      });
-
-      if (volumeSlider) {
-        const savedVolume = localStorage.getItem('musicVolume');
-        if (savedVolume !== null) {
-          volumeSlider.value = savedVolume;
-          setVolume(parseFloat(savedVolume));
-        } else {
-          setVolume(parseFloat(volumeSlider.value));
-        }
-
-        volumeSlider.addEventListener('input', (event) => {
-          const volume = parseFloat(event.target.value);
-          setVolume(volume);
-          localStorage.setItem('musicVolume', volume);
-        });
-      }
-    </script>
-    
-    <script type="module">
-      import { setEffectsVolume, playClickSound, wireClickSound } from "../../backend/scripts/misc/soundEffects.js";
-    
-      wireClickSound();
-    
-      const effectsSlider = document.getElementById("effects-volume");
-      if (effectsSlider) {
-        const saved = localStorage.getItem("effectsVolume");
-        if (saved !== null) effectsSlider.value = saved;
-        setEffectsVolume(effectsSlider.value);
-    
-        effectsSlider.addEventListener("input", (e) => {
-          setEffectsVolume(e.target.value);
-          playClickSound(); // preview
-        });
-      }
-    </script>
-
+      <br>
+    <div>
+        <div class="profile-buttons">
+          <button class="profile-btn">Compartir</button>
+          <button class="profile-btn">Créditos</button>
+        </div>
+        <button class="profile-btn-ayuda"></button>Ayuda</button> 
+        
+      </div>
+    </div>
 
   </div>
+    </div>
+    
 
 
+  <!-- Enlaza musicPlayer.js como módulo -->
+  <script type="module" src="../../backend/scripts/misc/musicPlayer.js"></script>
+
+
+
+  <!-- Script para controlar el volumen E iniciar la música -->
+  <script type="module">
+    import { setVolume, playMusic } from '../../backend/scripts/misc/musicPlayer.js';
+
+    // 🎵 Música de fondo (igual que antes)
+    const volumeSlider = document.getElementById('volume');
+    document.addEventListener('DOMContentLoaded', () => {
+      playMusic();
+    });
+
+    if (volumeSlider) {
+      const savedVolume = localStorage.getItem('musicVolume');
+      if (savedVolume !== null) {
+        volumeSlider.value = savedVolume;
+        setVolume(parseFloat(savedVolume));
+      } else {
+        setVolume(parseFloat(volumeSlider.value));
+      }
+
+      volumeSlider.addEventListener('input', (event) => {
+        const volume = parseFloat(event.target.value);
+        setVolume(volume);
+        localStorage.setItem('musicVolume', volume);
+      });
+    }
+  </script>
   
+  <script type="module">
+    import { setEffectsVolume, playClickSound, wireClickSound } from "../../backend/scripts/misc/soundEffects.js";
+  
+    wireClickSound();
+  
+    const effectsSlider = document.getElementById("effects-volume");
+    if (effectsSlider) {
+      const saved = localStorage.getItem("effectsVolume");
+      if (saved !== null) effectsSlider.value = saved;
+      setEffectsVolume(effectsSlider.value);
+  
+      effectsSlider.addEventListener("input", (e) => {
+        setEffectsVolume(e.target.value);
+        playClickSound(); // preview
+      });
+    }
+  </script>
 
   <!-- barra de navegación -->
   <div class="navbar">
@@ -151,6 +157,7 @@
     // Verificar estado de autenticación al cargar la página
     checkAuthState();
   </script>
+
 </body>
 
 </html>

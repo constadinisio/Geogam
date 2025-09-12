@@ -1,71 +1,52 @@
 // login.js
 
-
-
-
 // 1. Importar las funciones necesarias del SDK de Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
-  getAuth,
   signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-// 2. Tu configuración de Firebase (REEMPLAZA ESTO CON TUS CLAVES)
-const firebaseConfig = {
-  apiKey: "AIzaSyBlNPoDmKgQLo1o__FHoXURa61Rbx5yuno",
-  authDomain: "geogam-1700b.firebaseapp.com",
-  projectId: "geogam-1700b",
-  storageBucket: "geogam-1700b.appspot.com",
-  messagingSenderId: "1007484716725",
-  appId: "1:1007484716725:web:4ba44e16a5ed76e59060fc",
-};
-
-// 3. Inicializar Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app); // Obtenemos la instancia de Authentication
+import { auth } from "../../config/firebase-config.js";
 
 // 4. Seleccionar elementos del DOM
 const formLogin = document.getElementById("form-login");
 const mensajeError = document.getElementById("mensaje-error");
 
-// 5. Añadir el evento 'submit' al formulario
-formLogin.addEventListener("submit", async (e) => {
-  e.preventDefault(); // Evita que la página se recargue
+// 5. Agregar un listener para el evento 'submit' del formulario
+if (formLogin) {
+  formLogin.addEventListener("submit", (e) => {
+    e.preventDefault(); // Prevenir el envío tradicional del formulario
 
-  const email = formLogin["email"].value;
-  const password = formLogin["contrasena"].value;
+    // Obtener los valores de email y contraseña
+    const email = formLogin.email.value;
+    const password = formLogin.contrasena.value; // Corregido para usar el nombre correcto del campo
 
-  try {
-    // 6. Usar la función de Firebase para iniciar sesión
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
+    // 6. Iniciar sesión con Firebase
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Inicio de sesión exitoso
+        console.log("Inicio de sesión exitoso:", userCredential.user);
 
-    console.log("¡Login exitoso!");
-    sessionStorage.setItem("fromLogin", "true"); // Establece la bandera
-    console.log(
-      "Valor de 'fromLogin' en sessionStorage después de establecerlo:",
-      sessionStorage.getItem("fromLogin")
-    ); // Verifica el valor
-    window.location.href = "menu.html"; // Redirige
-  } catch (error) {
-    // 7. Manejar los errores de inicio de sesión
-    console.error("Error al iniciar sesión:", error.code);
-
-    let mensaje = "Ocurrió un error. Inténtalo de nuevo.";
-    if (error.code === "auth/user-not-found") {
-      mensaje = "El correo electrónico no está registrado.";
-    } else if (error.code === "auth/wrong-password") {
-      mensaje = "La contraseña es incorrecta.";
-    } else if (error.code === "auth/invalid-credential") {
-      mensaje =
-        "Las credenciales son incorrectas. Verifica el email y la contraseña.";
-    }
-
-    mensajeError.textContent = mensaje;
-    mensajeError.style.display = "block"; // Muestra el mensaje de error
-  }
-});
+        // 7. Redirigir al usuario al menú principal (o a donde quieras)
+        window.location.href = "/public/menu.html"; //_blank
+      })
+      .catch((error) => {
+        // 8. Manejar errores de inicio de sesión
+        console.error("Error de inicio de sesión:", error.code, error.message);
+        if (mensajeError) {
+          switch (error.code) {
+            case "auth/user-not-found":
+              mensajeError.textContent = "El correo electrónico no está registrado.";
+              break;
+            case "auth/wrong-password":
+              mensajeError.textContent = "La contraseña es incorrecta.";
+              break;
+            case "auth/invalid-email":
+              mensajeError.textContent = "El formato del correo electrónico no es válido.";
+              break;
+            default:
+              mensajeError.textContent =
+                "Ocurrió un error. Por favor, inténtalo de nuevo.";
+          }
+        }
+      });
+  });
+}
