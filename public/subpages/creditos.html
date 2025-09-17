@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créditos</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+
+    <div id="creditos-modal" class="modal" style="display: flex;">
+      <div class="modal-content creditos-content">
+        <a href="configuracion.html" class="close-creditos">&times;</a>
+        <h2>CRÉDITOS</h2>
+        <h3>Institución: X</h3>
+        <h4>Nuestro Proyecto</h4>
+        <p>
+          Aquí puedes escribir un breve texto sobre el proyecto.
+        </p>
+        <h4>Sobre Nosotros</h4>
+        <div class="team-container">
+          <div class="team-member">
+            <img src="../images/user.png" alt="Miembro 1">
+            <p>Título Miembro 1</p>
+          </div>
+          <div class="team-member">
+            <img src="../images/user.png" alt="Miembro 2">
+            <p>Título Miembro 2</p>
+          </div>
+          <div class="team-member">
+            <img src="../images/user.png" alt="Miembro 3">
+            <p>Título Miembro 3</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>
+    const modal = document.getElementById('creditos-modal');
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            window.location.href = 'configuracion.html';
+        }
+    }
+</script>
+
+</body>
+</html>

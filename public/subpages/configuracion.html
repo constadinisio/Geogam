@@ -40,40 +40,71 @@
       </audio>
 
       <div class="fondoslider">
-      <div class="volume-container">
-        <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5"> <!-- ID CAMBIADO -->
+        <div class="volume-container">
+          <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5"> <!-- ID CAMBIADO -->
+        </div>
       </div>
-    </div>
     </div>
 
     <div class="sonido2">
-      <div class="label-box" >
+      <div class="label-box">
         <p>Efectos de <br> sonido</p>
       </div>
 
       <!-- Efecto de prueba -->
       <audio id="click-sound" src="../audio/click-4.mp3" preload="auto"></audio>
       <div class="fondoslider">
-      <div class="volume-container">
-        <input type="range" id="effects-volume" min="0" max="1" step="0.01" value="0.5">
-      </div>
-    </div>
-    </div>
-
-      <br>
-    <div>
-        <div class="profile-buttons">
-          <button class="profile-btn">Compartir</button>
-          <button class="profile-btn">Créditos</button>
+        <div class="volume-container">
+          <input type="range" id="effects-volume" min="0" max="1" step="0.01" value="0.5">
         </div>
-        <button class="profile-btn-ayuda"></button>Ayuda</button> 
-        
       </div>
     </div>
+    <br>
+    <br>
+    <div>
+      <div class="config-buttons">
+        <button class="config-btn" id="creditos">Créditos</button>
+        <button class="config-btn" id="ayuda">Ayuda</button>
+        <button class="config-btn" id="compartir">Compartir</button>
+        <button class="config-btn" id="mas-ajustes">Más ajustes</button>
+      </div>
+    </div>
+  </div>
 
   </div>
+  </div>
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <button id="eliminar-cuenta-btn" class="config-btn">eliminar cuenta</button>
+  </div>
+</div>
+
+<div id="confirm-delete-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-confirm-delete">&times;</span>
+    <h3 class="elimcuenta"><strong>¿Estás seguro que desea eliminar su cuenta?</strong></h3>
+    <br>
+    <div class="modal-buttons">
+        <button id="confirm-delete-btn" class="config-btn">Eliminar</button>
+        <button id="cancel-delete-btn" class="config-btn">Cancelar</button>
     </div>
-    
+  </div>
+</div>
+
+<div id="reauth-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-reauth">&times;</span>
+    <h3 class="elimcuenta"> <strong>Por favor, ingrese su contraseña para continuar</strong></h3>
+    <input type="password" id="reauth-password" placeholder="Contraseña" />
+    <div class="modal-buttons">
+        <button id="reauth-btn" class="config-btn">Confirmar</button>
+        <button id="cancel-reauth-btn" class="config-btn">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 
 
   <!-- Enlaza musicPlayer.js como módulo -->
@@ -107,18 +138,18 @@
       });
     }
   </script>
-  
+
   <script type="module">
     import { setEffectsVolume, playClickSound, wireClickSound } from "../../backend/scripts/misc/soundEffects.js";
-  
+
     wireClickSound();
-  
+
     const effectsSlider = document.getElementById("effects-volume");
     if (effectsSlider) {
       const saved = localStorage.getItem("effectsVolume");
       if (saved !== null) effectsSlider.value = saved;
       setEffectsVolume(effectsSlider.value);
-  
+
       effectsSlider.addEventListener("input", (e) => {
         setEffectsVolume(e.target.value);
         playClickSound(); // preview
@@ -152,12 +183,115 @@
   <script type="module" src="../../backend/config/firebase-config.js"></script>
   <script type="module" src="../../backend/scripts/auth/auth.js"></script>
   <script type="module">
-    import { checkAuthState, logout } from '../../backend/scripts/auth/auth.js';
+    import { checkAuthState, deleteAccount, reauthenticate } from '../../backend/scripts/auth/auth.js';
 
     // Verificar estado de autenticación al cargar la página
     checkAuthState();
+
+    const confirmDeleteBtn = document.getElementById("confirm-delete-btn");
+    const reauthBtn = document.getElementById("reauth-btn");
+    const reauthModal = document.getElementById("reauth-modal");
+    const passwordInput = document.getElementById("reauth-password");
+
+    confirmDeleteBtn.onclick = () => {
+        document.getElementById("confirm-delete-modal").style.display = "none";
+        reauthModal.style.display = "flex";
+    };
+
+    reauthBtn.onclick = () => {
+        const password = passwordInput.value;
+        if (!password) {
+            alert("Por favor, ingrese su contraseña.");
+            return;
+        }
+
+        reauthenticate(password).then(() => {
+            // Re-authentication successful
+            console.log("Re-autenticación exitosa. Eliminando cuenta...");
+            return deleteAccount();
+        }).then(() => {
+            // Deletion successful
+            alert("Tu cuenta ha sido eliminada permanentemente.");
+            window.location.href = '../login.html';
+        }).catch((error) => {
+            console.error("Error en el proceso de eliminación:", error.code, error.message);
+            // Handle re-authentication and deletion errors
+            switch (error.code) {
+                case 'auth/wrong-password':
+                    alert("Contraseña incorrecta. Por favor, inténtelo de nuevo.");
+                    break;
+                case 'auth/user-mismatch':
+                     alert("Las credenciales proporcionadas no corresponden al usuario actual.");
+                     break;
+                case 'auth/requires-recent-login':
+                    // This case should theoretically be handled by our re-auth flow, but as a fallback:
+                    alert("Por seguridad, esta operación requiere que inicies sesión de nuevo.");
+                    break;
+                default:
+                    alert("Ocurrió un error inesperado al intentar eliminar la cuenta.");
+            }
+            // Clear password field for security
+            passwordInput.value = "";
+        });
+    };
   </script>
 
+<script>
+      const modal = document.getElementById("myModal");
+      const btnAjustes = document.getElementById("mas-ajustes");
+      const spanClose = document.querySelector(".modal .close");
+    
+      // abrir modal
+      btnAjustes.onclick = () => {
+        modal.style.display = "flex";
+      };
+    
+      // cerrar modal
+      spanClose.onclick = () => {
+        modal.style.display = "none";
+      };
+    
+      // cerrar al clickear fuera del modal
+      window.onclick = (event) => {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      const confirmDeleteModal = document.getElementById("confirm-delete-modal");
+      const openConfirmDeleteBtn = document.getElementById("eliminar-cuenta-btn");
+      const closeConfirmDeleteBtn = document.querySelector(".close-confirm-delete");
+      const cancelDeleteBtn = document.getElementById("cancel-delete-btn");
+      
+      openConfirmDeleteBtn.onclick = () => {
+        confirmDeleteModal.style.display = "flex";
+      };
+
+      closeConfirmDeleteBtn.onclick = () => {
+        confirmDeleteModal.style.display = "none";
+      };
+
+      cancelDeleteBtn.onclick = () => {
+        confirmDeleteModal.style.display = "none";
+      };
+
+      // Re-auth modal logic
+      const reauthModalEl = document.getElementById("reauth-modal");
+      const closeReauthBtn = document.querySelector(".close-reauth");
+      const cancelReauthBtn = document.getElementById("cancel-reauth-btn");
+
+      closeReauthBtn.onclick = () => {
+        reauthModalEl.style.display = "none";
+      };
+
+      cancelReauthBtn.onclick = () => {
+        reauthModalEl.style.display = "none";
+      };
+
+      document.getElementById("creditos").addEventListener("click", function() {
+        window.location.href = "creditos.html";
+    });
+</script>
 </body>
 
 </html>

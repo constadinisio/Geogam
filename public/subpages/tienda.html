@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <div id="main-content">
+        <a href="../menu.html" class="btn-volver">
+            <img src="../images/flecha_antigua.png" alt="Volver">
+        </a>
+
+        <div class="body-pergamino">
+            <div class="pergamino-header">TIENDA</div>
+            <div class="coin-balance">
+                <img src="/public/images/moneda.png" alt="Monedas">
+                <span id="user-coins"></span>
+            </div>
+
+            <hr class="hr-body">
+
+            <div class="profile-preview">
+                <img id="profile-pic-preview" src="../images/user.png" alt="User">
+                <img id="frame-preview" src="/public/images/marco1.png" alt="Marco">
+            </div>
+
+            <div class="shop-grid">
+                <!-- Los artículos de la tienda se generarán aquí -->
+            </div>
+        </div>
+
+        <div class="navbar">
+            <a href="./tienda.html" class="nav-item active">
+                <img src="../images/cofre.png" alt="Tienda">
+                <span class="nav-text">TIENDA</span>
+            </a>
+            <a href="../menu.html" class="nav-item">
+                <img src="../images/boton-castle.png" alt="Juego">
+                <span class="nav-text">JUEGO</span>
+            </a>
+            <a href="./perfil.html" class="nav-item">
+                <img src="../images/user.png" alt="Perfil">
+                <span class="nav-text">PERFIL</span>
+            </a>
+            <a href="./estadisticas.html" class="nav-item">
+                <img src="../images/estadisticas.png" alt="Estadísticas">
+                <span class="nav-text">STATS</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="../../backend/scripts/shop/shop.js"></script>
+</body>
+</html>

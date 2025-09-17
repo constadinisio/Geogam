@@ -2,8 +2,11 @@
 import {
   signOut,
   onAuthStateChanged,
+  deleteUser,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { ref, get, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 // Mantén la importación de la instancia 'auth' desde tu archivo de configuración
 import { auth, database } from "../../config/firebase-config.js"; // <-- Asegúrate de que esta ruta sea correcta
@@ -59,4 +62,22 @@ function updateProfileUI(userData) {
   if (usuarioElement) {
     usuarioElement.textContent = "Usuario: " + userData.usuario;
   }
+}
+
+export function reauthenticate(password) {
+    const user = auth.currentUser;
+    const credential = EmailAuthProvider.credential(user.email, password);
+    return reauthenticateWithCredential(user, credential);
+}
+
+export function deleteAccount() {
+  const user = auth.currentUser;
+  const userId = user.uid;
+  const userRef = ref(database, 'users/' + userId);
+
+  // Primero, elimina el usuario de Authentication. Es más seguro.
+  return deleteUser(user).then(() => {
+    // Si la eliminación de la autenticación tiene éxito, elimina los datos de Realtime Database.
+    return remove(userRef);
+  });
 }
