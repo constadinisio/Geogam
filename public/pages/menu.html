@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marzzatino</title>
+  </head>
+
+  <body>
+
+    <!-- Contenido principal, inicialmente oculto por el loader -->
+    <div id="main-content" style="display: none;">
+      <!-- Botones de Configuración y Perfil-->
+      <div class="botones">
+        <!-- Botón configuración -->
+        <a href="configuracion.html" class="btn config">
+          <img
+            src="../images/engranaje-madera.webp"
+            alt="Configuración"
+            class="icon"
+          />
+        </a>
+
+        <!-- Botón perfil (CORREGIDO) -->
+        <a href="perfil.html" class="btn perfil">
+          <img
+            src="../images/user.webp"
+            alt="Perfil"
+            class="icon invertida"
+            style="width: 100%; height: 50%"
+          />
+        </a>
+      </div>
+
+      <!-- Columnas -->
+      <div class="menu">
+        <div class="menu-header">MODOS DE JUEGO</div>
+        <hr class="menu-divider" />
+        <div class="menu-body">
+          <img
+            src="../images/fondorecuadro2.webp"
+            alt="Decoración"
+            class="menu-img"
+          />
+          <div class="menu-options">
+            <a href="/public/modosJuego/offlineModo/online-mode.html" class="menu-btn">ONLINE</a>
+            <a href="../modosJuego/offlineModo/offline-mode.html" class="menu-btn">OFFLINE</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de navegación -->
+      <div class="navbar">
+        <a href="tienda.html" class="nav-item">
+          <img src="../images/cofre.webp" alt="Tienda" />
+          <span class="nav-text">TIENDA</span>
+        </a>
+        <a href="menu.html" class="nav-item active">
+          <img src="../images/boton-castle.webp" alt="Menu" />
+          <span class="nav-text">MENU</span>
+        </a>
+        <a href="misiones.html" class="nav-item">
+          <img src="../images/boton-mision.webp" alt="Misiones" />
+          <span class="nav-text">MISIONES</span>
+        </a>
+        <a href="estadisticas.html" class="nav-item">
+          <img src="../images/estadisticas.webp" alt="Estadísticas" />
+          <span class="nav-text">ESTADISTICAS</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Pantalla de Carga (Gestionada por loader.js) -->
+    <div id="pantalla_de_carga">
+      <img src="../images/logo_redondeado.webp" alt="logo" class="logo" />
+      <hr />
+      <img src="../images/reloj_arena.gif" alt="Cargando..." class="carga" />
+      <p id="copyright">©Marzzatino</p>
+    </div>
+
+    <!-- Audio -->
+    <audio id="background-music" loop>
+      <source src="../audio/background_music.wav" type="audio/wav" />
+      Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Scripts -->
+    <script type="module" src="../../backend/config/firebase-config.js"></script>
+
+    <!-- Script para iniciar la música y aplicar volumen guardado -->
+    <script type="module">
+      import { playMusic, setVolume } from '../../backend/functions/misc/musicPlayer.js';
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const savedVolume = localStorage.getItem('musicVolume');
+        if (savedVolume !== null) {
+          setVolume(parseFloat(savedVolume));
+        } else {
+          setVolume(0.5); // Volumen por defecto
+        }
+        playMusic();
+      });
+    </script>
+
+    <!-- NUEVO GESTOR DE CARGA INTELIGENTE -->
+    <script type="module" src="../../backend/functions/misc/loader.js"></script>
+
+  </body>
+</html>

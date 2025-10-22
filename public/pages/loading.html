@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Establece la codificación de caracteres para la página -->
+    <meta charset="UTF-8">
+    <!-- Configura la vista para dispositivos móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Establece el título de la página que aparece en la pestaña del navegador -->
+    <title>Loading</title>
+    <!-- Enlaza la hoja de estilos CSS para dar formato a la página -->
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <!-- Este div representa la pantalla de carga completa -->
+    <div id="pantalla_de_carga">
+        <!-- Un elemento div para crear un círculo, posiblemente animado o estilizado -->
+        <div class="circle">
+            <!-- Un elemento interno para el círculo, para efectos visuales -->
+            <div class="circle-inner"></div>
+        </div>
+        <!-- Una imagen GIF que se muestra durante la carga -->
+        <img src="../images/reloj_arena.gif" alt="Cargando..." id="loading-gif">
+    </div>
+
+    <!-- Enlaza el script JavaScript que maneja la lógica de la pantalla de carga -->
+    <!-- Este script probablemente controla cuándo mostrar y ocultar la pantalla -->
+    <script src="../backend/functions/pantallaCarga.js"></script>
+</body>
+</html>

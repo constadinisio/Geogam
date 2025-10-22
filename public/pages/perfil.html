@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../styles/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marzzatino</title>
+</head>
+
+<body>
+
+  <!-- Botones de Configuración y Perfil-->
+
+
+  <!-- Botón volver -->
+
+  <a href="menu.html" class="btn-volver">
+    <img src="../images/boton-salir.webp" alt="volver">
+  </a>
+
+  <!-- config -->
+
+  <div class="body-pergamino">
+    <div class="pergamino-header">PERFIL</div>
+
+    <hr class="hr-body">
+    <div class="user-input">Nombre:<!-- Caja de texto del nombre -->
+      
+    </div>
+    <div>
+      <div class="profile-box">
+        <div class="profile-title">FOTO DE PERFIL</div>
+        <hr class="profile-hr">
+
+        <div class="profile-buttons">
+          <button class="profile-btn" id="botonPerfilVer">Ver</button>
+          <button class="profile-btn" id="botonPerfilEditar">Editar</button>
+          <button class="profile-btn" id="botonPerfilAñadir">Añadir</button>
+          <button class="profile-btn" id="botonPerfilRemover">Remover</button>
+        </div>
+      </div>
+    </div>
+    <br>
+    <button id="logoutButton">Cerrar sesión</button>
+  </div>
+  </div>
+
+
+
+  <!-- barra de navegación -->
+
+  <div class="navbar">
+    <a href="tienda.html" class="nav-item">
+      <img src="../images/cofre.webp" alt="Tienda">
+      <span class="nav-text">TIENDA</span>
+    </a>
+
+    <a href="menu.html" class="nav-item">
+      <img src="../images/boton-castle.webp" alt="Menu">
+      <span class="nav-text">MENU</span>
+    </a>
+
+    <a href="misiones.html" class="nav-item">
+      <img src="../images/boton-mision.webp" alt="Misiones">
+      <span class="nav-text">MISIONES</span>
+    </a>
+
+    <a href="estadisticas.html" class="nav-item">
+      <img src="../images/estadisticas.webp" alt="Estadísticas">
+      <span class="nav-text">ESTADISTICAS</span>
+    </a>
+  </div>
+
+  <!-- Elemento de Audio para la música de fondo -->
+  <audio id="background-music" loop>
+    <source src="../audio/background_music.wav" type="audio/wav">
+    Tu navegador no soporta el elemento de audio.
+  </audio>
+
+  <!-- Scripts de Firebase y Autenticación -->
+  <script type="module" src="../../backend/config/firebase-config.js"></script>
+  <script type="module" src="../../backend/functions/auth/auth.js"></script>
+
+  <!-- Script del Reproductor de Música -->
+  <script type="module" src="../../backend/functions/misc/musicPlayer.js"></script>
+
+  <!-- Script para iniciar la música, aplicar volumen y verificar autenticación -->
+  <script type="module">
+    import { playMusic, setVolume } from '../../backend/functions/misc/musicPlayer.js';
+    import { checkAuthState, logout } from '../../backend/functions/auth/auth.js';
+
+    // Verificar estado de autenticación al cargar la página
+    checkAuthState();
+
+    // Adjuntar la función logout a un botón (si existe en la página)
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+      logoutButton.addEventListener('click', logout);
+    }
+
+    // Asegurarse de que el DOM está cargado antes de interactuar con él
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedVolume = localStorage.getItem('musicVolume');
+      if (savedVolume !== null) {
+        setVolume(parseFloat(savedVolume));
+      } else {
+        setVolume(0.5); // Volumen por defecto
+      }
+      playMusic();
+    });
+  </script>
+</body>
+
+</html>

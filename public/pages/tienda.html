@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda - GeoGam</title>
+    <link rel="stylesheet" href="../styles/styles.css?v=1.1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap">
+</head>
+<body>
+    <!-- Contenido principal, inicialmente oculto -->
+    <div id="main-content" class="shop-container" style="display: none;">
+        <div class="body-pergamino">
+            <div class="pergamino-header">TIENDA</div>
+            <hr class="hr-body" id="tienda">
+
+            <div class="profile-preview">
+                <img id="profile-pic-preview" src="../images/user.webp" alt="User">
+                <img id="frame-preview" src="/public/images/marco1.webp" alt="Marco">
+            </div>
+
+            <div class="coin-balance">
+                <img src="/public/images/moneda.webp" alt="Monedas">
+                <span id="user-coins">--</span>
+            </div>
+
+            <div class="shop-grid">
+                <!-- Los artículos de la tienda se generan dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Barra de navegación CORREGIDA y ESTANDARIZADA -->
+        <div class="navbar">
+            <a href="tienda.html" class="nav-item active">
+                <img src="../images/cofre.webp" alt="Tienda">
+                <span class="nav-text">TIENDA</span>
+            </a>
+            <a href="menu.html" class="nav-item">
+                <img src="../images/boton-castle.webp" alt="Menu">
+                <span class="nav-text">MENU</span>
+            </a>
+            <a href="misiones.html" class="nav-item">
+                <img src="../images/boton-mision.webp" alt="Misiones">
+                <span class="nav-text">MISIONES</span>
+            </a>
+            <a href="estadisticas.html" class="nav-item">
+                <img src="../images/estadisticas.webp" alt="Estadísticas">
+                <span class="nav-text">ESTADISTICAS</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <p>¿Estás seguro de comprar este artículo?</p>
+            <div class="modal-buttons">
+                <button id="confirm-purchase-btn">Sí</button>
+                <button id="cancel-purchase-btn">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Carga (Gestionada por loader.js) -->
+    <div id="pantalla_de_carga">
+        <img src="../images/logo_redondeado.webp" alt="logo" class="logo" />
+        <hr />
+        <img src="../images/reloj_arena.gif" alt="Cargando..." class="carga" />
+        <p id="copyright">©Marzzatino</p>
+    </div>
+
+    <!-- Audio -->
+    <audio id="background-music" loop>
+        <source src="../audio/background_music.wav" type="audio/wav" />
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Scripts -->
+    <script src="../../backend/functions/shop/shop.js" type="module"></script>
+
+    <!-- Script para iniciar la música -->
+    <script type="module">
+        import { playMusic, setVolume } from '../../backend/functions/misc/musicPlayer.js';
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedVolume = localStorage.getItem('musicVolume');
+            if (savedVolume !== null) {
+                setVolume(parseFloat(savedVolume));
+            } else {
+                setVolume(0.5); // Volumen por defecto
+            }
+            playMusic();
+        });
+    </script>
+
+    <!-- NUEVO GESTOR DE CARGA INTELIGENTE -->
+    <script type="module" src="../../backend/functions/misc/loader.js"></script>
+
+</body>
+</html>

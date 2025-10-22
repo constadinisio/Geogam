@@ -1,8 +1,11 @@
+// Es la configuración para que firebase se conecte con la base de datos.
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getDatabase } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// La configuración de Firebase, incluyendo la URL de la base de datos es correcta.
+// La configuración de tu proyecto Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBlNPoDmKgQLo1o__FHoXURa61Rbx5yuno",
   authDomain: "geogam-1700b.firebaseapp.com",
@@ -10,17 +13,16 @@ const firebaseConfig = {
   storageBucket: "geogam-1700b.appspot.com",
   messagingSenderId: "1007484716725",
   appId: "1:1007484716725:web:4ba44e16a5ed76e59060fc",
-  // ¡URL CORREGIDA! Apuntando a la región us-central1
   databaseURL: "https://geogam-1700b-default-rtdb.us-central1.firebasedatabase.app",
 };
 
-// 1. Inicializa la aplicación de Firebase. Esto crea una instancia "default".
-initializeApp(firebaseConfig);
+// Inicializar la aplicación de Firebase
+const app = initializeApp(firebaseConfig);
 
-// 2. Llama a getAuth() y getDatabase() sin argumentos.
-// Estas funciones encontrarán automáticamente la instancia "default" que acabamos de crear.
-const auth = getAuth();
-const database = getDatabase();
+// Obtener acceso a los diferentes servicios de Firebase
+const auth = getAuth(app);
+const database = getDatabase(app); // Para Realtime Database (la que ya usas)
+const db = getFirestore(app);       // Para Cloud Firestore (la que usaremos para el juego)
 
-// 3. Exporta solo las instancias de servicio que necesitamos.
-export { auth, database };
+// Exportar los servicios para que puedan ser usados en otros archivos
+export { auth, database, db };

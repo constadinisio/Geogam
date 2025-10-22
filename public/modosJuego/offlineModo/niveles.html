@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/styles/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niveles</title>
+</head>
+<body>
+    <!-- Botón volver -->
+    <a href="preguntados.html" class="btn-volver">
+        <img src="/public/images/boton-salir.webp" alt="volver">
+    </a>
+
+    <div class="menu" id="menu-niveles">
+        <div class="menu-header">Elige la Dificultad</div>
+        <hr class="menu-divider" />
+        <div class="menu-body">
+            <img src="/public/images/fondorecuadro2.webp" alt="Decoración" class="menu-img" />
+            <div class="menu-options">
+                <!-- Nivel Fácil -->
+                <a href="juego.html?dificultad=Fácil" class="menu-btn">Fácil</a>
+                
+                <!-- Nivel Medio (controlado por JS) -->
+                <a id="btn-nivel-medio" class="menu-btn locked">Media <span class="lock-icon">&#128274;</span> (Nivel 5)</a>
+                
+                <!-- Nivel Difícil (controlado por JS) -->
+                <a id="btn-nivel-dificil" class="menu-btn locked">Difícil <span class="lock-icon">&#128274;</span> (Nivel 10)</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/backend/functions/game/niveles.js"></script>
+</body>
+</html>

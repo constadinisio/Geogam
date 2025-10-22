@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Estadísticas - GeoGam</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap">
+</head>
+<body>
+    <!-- Contenido principal, inicialmente oculto -->
+    <div id="main-content" style="display: none;">
+        <a href="menu.html" class="btn-volver">
+            <img src="/public/images/boton-salir.webp" alt="volver">
+        </a>
+
+        <div class="menu" id="perfil-container">
+            <div class="menu-header" id="nombre-usuario">Cargando...</div>
+            <hr class="menu-divider" />
+            
+            <div class="perfil-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Nivel</span>
+                    <span id="nivel-usuario" class="stat-value">--</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Monedas</span>
+                    <span id="monedas-usuario" class="stat-value">--</span>
+                </div>
+            </div>
+
+            <div class="xp-container">
+                <div class="xp-label">
+                    <span>Progreso XP</span>
+                    <span id="xp-texto">--/--</span>
+                </div>
+                <div class="xp-bar-background">
+                    <div id="xp-bar-foreground"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar">
+            <a href="tienda.html" class="nav-item">
+                <img src="../images/cofre.webp" alt="Tienda" />
+                <span class="nav-text">TIENDA</span>
+            </a>
+            <a href="menu.html" class="nav-item">
+                <img src="../images/boton-castle.webp" alt="Menu" />
+                <span class="nav-text">MENU</span>
+            </a>
+            <a href="misiones.html" class="nav-item">
+                <img src="../images/boton-mision.webp" alt="Misiones" />
+                <span class="nav-text">MISIONES</span>
+            </a>
+            <a href="estadisticas.html" class="nav-item active">
+                <img src="../images/estadisticas.webp" alt="Estadísticas" />
+                <span class="nav-text">ESTADISTICAS</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Pantalla de Carga (Gestionada por loader.js) -->
+    <div id="pantalla_de_carga">
+        <img src="../images/logo_redondeado.webp" alt="logo" class="logo" />
+        <hr />
+        <img src="../images/reloj_arena.gif" alt="Cargando..." class="carga" />
+        <p id="copyright">©Marzzatino</p>
+    </div>
+
+    <!-- Audio -->
+    <audio id="background-music" loop>
+        <source src="../audio/background_music.wav" type="audio/wav" />
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Scripts -->
+    <script type="module" src="../../backend/config/firebase-config.js"></script>
+    <script type="module" src="../../backend/functions/auth/estadisticas.js"></script>
+
+    <!-- Script para iniciar la música -->
+    <script type="module">
+        import { playMusic, setVolume } from '../../backend/functions/misc/musicPlayer.js';
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedVolume = localStorage.getItem('musicVolume');
+            if (savedVolume !== null) {
+                setVolume(parseFloat(savedVolume));
+            } else {
+                setVolume(0.5); // Volumen por defecto
+            }
+            playMusic();
+        });
+    </script>
+    
+    <!-- NUEVO GESTOR DE CARGA INTELIGENTE -->
+    <script type="module" src="../../backend/functions/misc/loader.js"></script>
+
+</body>
+</html>
