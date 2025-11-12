@@ -1,56 +1,83 @@
+
 // --- Archivo de configuración para la vista de estadísticas ---
 
-import { database } from "../../config/firebase-config.js"; //importa el archivo de la configuración de firebase para poder acceder a la base de datos
-import { ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"; //linea de código fundamental para interactuar con la base de datos en tiempo real de Firebase
+// Importa Firestore DB y funciones en lugar de Realtime Database
+import { db } from "../../config/firebase-config.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// --- Función para calcular el nivel y XP basado en el XP total ---
+// Esto convierte el XP total de Firestore al sistema de niveles que la UI necesita.
+function calculateLevelInfo(totalXp) {
+    let level = 1;
+    let xpNeededForNextLevel = Math.floor(100 * Math.pow(level, 1.5));
+
+    while (totalXp >= xpNeededForNextLevel) {
+        totalXp -= xpNeededForNextLevel;
+        level++;
+        xpNeededForNextLevel = Math.floor(100 * Math.pow(level, 1.5));
+    }
+
+    return {
+        level: level,
+        xpInLevel: Math.floor(totalXp),
+        xpForNextLevel: xpNeededForNextLevel,
+    };
+}
+
 
 // --- Función principal para inicializar la vista de estadísticas ---
 async function inicializarEstadisticas(event) {
-    const { user } = event.detail; // Obtenemos el usuario directamente del evento disparado por el loader
+    const { user } = event.detail;
 
     if (user) {
-        console.log(`app-ready event received. User UID: ${user.uid}. Initializing statistics...`);
-        // Usuario ha iniciado sesión, obtener sus datos
-        const userRef = ref(database, 'users/' + user.uid);
+        console.log(`Estadisticas: Leyendo datos de Firestore para el usuario ${user.uid}...`);
+        // Usuario ha iniciado sesión, obtener sus datos de Firestore
+        const userDocRef = doc(db, 'users', user.uid);
         try {
-            const snapshot = await get(userRef);
-            if (snapshot.exists()) {
-                const userData = snapshot.val();
-                actualizarVistaEstadisticas(userData, user.displayName);
+            const docSnap = await getDoc(userDocRef);
+            if (docSnap.exists()) {
+                const userData = docSnap.data();
+                // Adaptamos los datos de Firestore a lo que la vista espera
+                const viewData = {
+                    xp: userData.xp || 0,
+                    monedas: userData.monedas || 0,
+                    displayName: user.displayName
+                };
+                actualizarVistaEstadisticas(viewData);
             } else {
-                console.warn(`Datos no encontrados para el usuario ${user.uid}. Mostrando valores por defecto.`);
-                actualizarVistaEstadisticas({ level: 1, xp: 0, coins: 0 }, user.displayName);
+                console.warn(`Documento no encontrado en Firestore para el usuario ${user.uid}. Mostrando valores por defecto.`);
+                actualizarVistaEstadisticas({ xp: 0, monedas: 0, displayName: user.displayName });
             }
         } catch (error) {
-            console.error("Error al obtener los datos del usuario: ", error);
+            console.error("Error al obtener los datos del usuario de Firestore: ", error);
             document.getElementById('nombre-usuario').textContent = 'Error al cargar';
         }
     } else {
-
-        // Si el loader ya determinó que no hay usuario, redirigimos al login.
-        console.log("Usuario no autenticado (recibido del loader), redirigiendo al login.");
+        console.log("Usuario no autenticado, redirigiendo al login.");
         window.location.href = "/public/pages/login.html";
     }
 }
 
 // --- Función auxiliar para actualizar los elementos del DOM ---
-function actualizarVistaEstadisticas(userData, displayName) {
+function actualizarVistaEstadisticas(viewData) {
     const nombreUsuarioEl = document.getElementById('nombre-usuario');
     const nivelUsuarioEl = document.getElementById('nivel-usuario');
     const monedasUsuarioEl = document.getElementById('monedas-usuario');
     const xpTextoEl = document.getElementById('xp-texto');
     const xpBar = document.getElementById('xp-bar-foreground');
 
-    if (nombreUsuarioEl) nombreUsuarioEl.textContent = displayName || 'Usuario';
-    if (nivelUsuarioEl) nivelUsuarioEl.textContent = userData.level || 1;
-    if (monedasUsuarioEl) monedasUsuarioEl.textContent = userData.coins || 0;
+    // Calculamos el nivel actual basado en el XP total
+    const levelInfo = calculateLevelInfo(viewData.xp);
+
+    if (nombreUsuarioEl) nombreUsuarioEl.textContent = viewData.displayName || 'Usuario';
+    if (nivelUsuarioEl) nivelUsuarioEl.textContent = levelInfo.level;
+    // Usamos 'monedas' de Firestore
+    if (monedasUsuarioEl) monedasUsuarioEl.textContent = viewData.monedas;
 
     // Lógica de la barra de experiencia (XP)
-    const nivelActual = userData.level || 1;
-    const xpActual = userData.xp || 0;
-    const xpParaSiguienteNivel = Math.floor(100 * Math.pow(nivelActual, 1.5));
-    const progresoXP = (xpActual / xpParaSiguienteNivel) * 100;
+    const progresoXP = (levelInfo.xpInLevel / levelInfo.xpForNextLevel) * 100;
 
-    if (xpTextoEl) xpTextoEl.textContent = `${xpActual} / ${xpParaSiguienteNivel} XP`;
+    if (xpTextoEl) xpTextoEl.textContent = `${levelInfo.xpInLevel} / ${levelInfo.xpForNextLevel} XP`;
     if (xpBar) xpBar.style.width = `${progresoXP}%`;
 }
 

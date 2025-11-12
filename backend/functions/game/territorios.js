@@ -1,6 +1,7 @@
 import { auth, db } from "../../config/firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, updateDoc, increment, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { doc, getDoc, updateDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { territorios } from '../../data/territorios.js';
 import { checkMissions } from "../missions/mission-processor.js";
 
 // --- Variables de estado del juego ---
@@ -11,55 +12,41 @@ let respuestasCorrectas = 0;
 let monedasGanadas = 0;
 let xpGanada = 0;
 let rachaActual = 0;
+let dificultadPartida = '';
 let timerInterval = null;
 
 // --- Elementos del DOM ---
-let enunciadoEl, opcionesContainer, timerEl, juegoContainer;
+let enunciadoEl, opcionesContainer, timerEl, juegoContainer, imagenEl;
 
 document.addEventListener('DOMContentLoaded', () => {
+    enunciadoEl = document.getElementById('pregunta-enunciado');
+    opcionesContainer = document.getElementById('opciones-container');
+    timerEl = document.getElementById('timer');
     juegoContainer = document.getElementById('juego-container');
+    imagenEl = document.getElementById('pregunta-imagen');
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const dificultadSeleccionada = urlParams.get('dificultad');
+    const params = new URLSearchParams(window.location.search);
+    dificultadPartida = params.get('dificultad');
 
-    if (!dificultadSeleccionada) {
-        alert("ERROR: No se pudo determinar la dificultad. Por favor, vuelve a seleccionarla.");
-        window.location.href = 'niveles.html'; 
-        return;
-    }
-
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, (user) => {
         if (user) {
             currentUser = user;
-            await iniciarPartida(dificultadSeleccionada);
+            if (dificultadPartida) {
+                iniciarPartida();
+            } else {
+                if(enunciadoEl) enunciadoEl.textContent = "No se especificó una dificultad.";
+            }
         } else {
-            alert("Debes iniciar sesión para jugar.");
+            alert("Debes iniciar sesión para jugar este modo.");
             window.location.href = "/public/pages/login.html";
         }
     });
 });
 
-async function iniciarPartida(dificultad) {
-    if (juegoContainer) {
-        juegoContainer.innerHTML = `<p class="cargando-preguntas" style="color: white; font-size: 1.8rem; text-align: center;">Cargando preguntas de dificultad: ${dificultad}...</p>`;
-    }
+function iniciarPartida() {
+    const preguntasFiltradas = territorios.filter(p => p.dificultad === dificultadPartida);
+    preguntasJuego = preguntasFiltradas.sort(() => Math.random() - 0.5).slice(0, 5);
 
-    preguntasJuego = await obtenerPreguntasPorDificultad(dificultad);
-    
-    if (juegoContainer) {
-        juegoContainer.innerHTML = `
-            <div id="timer-container" style="font-size: 2rem; margin-bottom: 20px; color: white; text-align: center;">
-                TIEMPO: <span id="timer">15S</span>
-            </div>
-            <div id="pregunta-enunciado" style="font-size: 1.8rem; margin-bottom: 30px; color: white; text-align: center;"></div>
-            <div id="opciones-container" style="display: flex; flex-direction: column; align-items: center; gap: 15px;"></div>
-        `;
-    }
-
-    enunciadoEl = document.getElementById('pregunta-enunciado');
-    opcionesContainer = document.getElementById('opciones-container');
-    timerEl = document.getElementById('timer');
-    
     if (preguntasJuego.length > 0) {
         preguntaActualIndex = 0;
         respuestasCorrectas = 0;
@@ -68,41 +55,18 @@ async function iniciarPartida(dificultad) {
         rachaActual = 0;
         mostrarPreguntaActual();
     } else {
-        if (juegoContainer) juegoContainer.innerHTML = `<p style="color: white; text-align: center; font-size: 1.5rem;">¡Oh, no! No se encontraron preguntas para la dificultad '${dificultad}'. <br> Contacta al administrador.</p>`;
-    }
-}
-
-async function obtenerPreguntasPorDificultad(dificultad) {
-    const preguntasFiltradas = [];
-    try {
-        // La dificultad en Firestore parece estar en minúscula, ej: "Fácil" vs "facil"
-        const q = query(collection(db, "preguntas"), where("dificultad", "==", dificultad));
-        const querySnapshot = await getDocs(q);
-        
-        querySnapshot.forEach((doc) => {
-            preguntasFiltradas.push({ id: doc.id, ...doc.data() });
-        });
-
-        if (preguntasFiltradas.length > 0) {
-            return preguntasFiltradas.sort(() => Math.random() - 0.5).slice(0, 5);
-        } else {
-            return [];
+        if (juegoContainer) {
+            juegoContainer.innerHTML = '<p style="color: white; text-align: center;">No hay preguntas para esta dificultad.</p>';
         }
-    } catch (error) {
-        console.error(`Error al cargar las preguntas de dificultad ${dificultad}:`, error);
-        return [];
     }
 }
 
 function mostrarPreguntaActual() {
-    if (!enunciadoEl || !opcionesContainer || !timerEl) return;
+    if (!juegoContainer || !enunciadoEl || !opcionesContainer || !timerEl || !imagenEl) return;
 
     const pregunta = preguntasJuego[preguntaActualIndex];
-    
-    // *** LA CORRECCIÓN CLAVE ESTÁ AQUÍ ***
-    // Usamos 'enunciado' en lugar de 'pregunta'
-    enunciadoEl.textContent = pregunta.enunciado;
-
+    enunciadoEl.textContent = pregunta.pregunta;
+    imagenEl.src = `/public/images/territorios/${pregunta.imagenNombre}`;
     opcionesContainer.innerHTML = '';
 
     const opciones = [...pregunta.opcionesIncorrectas, pregunta.respuestaCorrecta];
@@ -122,11 +86,11 @@ function mostrarPreguntaActual() {
 
     clearInterval(timerInterval);
     let timeLeft = 15;
-    timerEl.textContent = timeLeft + 'S';
+    timerEl.textContent = timeLeft;
 
     timerInterval = setInterval(() => {
         timeLeft--;
-        timerEl.textContent = timeLeft + 'S';
+        timerEl.textContent = timeLeft;
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             rachaActual = 0;
@@ -137,15 +101,14 @@ function mostrarPreguntaActual() {
 
 function manejarRespuesta(opcionSeleccionada, respuestaCorrecta) {
     clearInterval(timerInterval);
-    const preguntaActual = preguntasJuego[preguntaActualIndex];
 
     if (opcionSeleccionada === respuestaCorrecta) {
         respuestasCorrectas++;
         rachaActual++;
-
+        
         let monedasPorRespuesta = 10, xpPorRespuesta = 15;
-        if (preguntaActual.dificultad.toLowerCase() === 'media') { monedasPorRespuesta = 20; xpPorRespuesta = 25; }
-        if (preguntaActual.dificultad.toLowerCase() === 'difícil') { monedasPorRespuesta = 30; xpPorRespuesta = 35; }
+        if(dificultadPartida === 'Media') { monedasPorRespuesta = 20; xpPorRespuesta = 25; }
+        if(dificultadPartida === 'Difícil') { monedasPorRespuesta = 30; xpPorRespuesta = 35; }
 
         const bonoRacha = rachaActual >= 3 ? 5 * (rachaActual - 2) : 0;
         monedasGanadas += monedasPorRespuesta + bonoRacha;
@@ -182,7 +145,7 @@ async function mostrarResumenFinal() {
                     
                     <div style="margin-top: 30px;">
                         <a href="niveles.html" class="menu-btn">Jugar de Nuevo</a>
-                        <a href="/public/pages/menu.html" class="menu-btn">Volver al Menú</a>
+                        <a href="territorios.html" class="menu-btn">Volver al Menú</a>
                     </div>
                 </div>
             </div>
@@ -200,6 +163,7 @@ async function actualizarDatosYRevisarMisiones() {
     };
 
     try {
+        // 1. Actualiza las estadísticas principales del usuario
         await updateDoc(userDocRef, {
             'monedas': increment(monedasGanadas),
             'xp': increment(xpGanada),
@@ -208,6 +172,7 @@ async function actualizarDatosYRevisarMisiones() {
             'estadisticas.preguntasIncorrectas': increment(preguntasJuego.length - respuestasCorrectas)
         });
 
+        // 2. Llama al procesador de misiones con el resultado de la partida
         await checkMissions(currentUser.uid, gameResult);
 
     } catch (error) {

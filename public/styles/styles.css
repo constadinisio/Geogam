@@ -32,6 +32,10 @@ body {
   justify-items: center;
 }
 
+::root {
+  overflow-x: hidden;
+}
+
 /* Pantalla de Carga */
 
 #pantalla_de_carga {
@@ -273,7 +277,7 @@ hr {
 
 .menu {
   width: 300px;
-  height: 300px;
+  height: 270px;
   margin: 20px auto;
   background-color: rgba(20, 20, 20, 0.3);
 
@@ -316,6 +320,7 @@ hr {
   bottom: 0px;
   position: relative;
 }
+
 
 /* opciones dentro de la imagen */
 .menu-options {
@@ -412,6 +417,15 @@ hr {
   left: 40px;
   position: relative;
 }
+
+.offline-opc-divider {
+  border: none;
+  border-top: 1px solid #c0c0c0; /* Light gray color */
+  width: 60%;
+  margin: 10px auto 20px;
+  position: relative;
+  top: 3px;
+}
 .offline-container {
   display: flex;
   justify-content: center;
@@ -460,14 +474,271 @@ hr {
   text-decoration: none; /* quita subrayado si es <a> */
 }
 
-.menu-btn:hover {
+.offline-button1:hover,
+.offline-button2:hover,
+.offline-button3:hover,
+.offline-button4:hover {
   transform: scale(1.05);
 }
 
-.menu-btn:active {
+.offline-button1:active,
+.offline-button2:active,
+.offline-button3:active,
+.offline-button4:active {
   transform: translateY(3px) scale(0.97);
   box-shadow: 0 1px 0 #222;
 }
+
+/*
+============================
+
+          4.2.1) Preguntados
+
+============================
+*/
+.preguntados-header {
+  background-color: #4b2e1c;
+  /* marrón oscuro */
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 7px;
+  width: 200px;
+  left: 42px;
+  position: relative;
+  top: 5px;
+}
+
+.preguntados-divider {
+  border: none;
+  border-top: 1px solid #c0c0c0; /* Light gray color */
+  width: 60%;
+  margin: 10px auto 20px;
+  position: relative;
+  top: 12px;
+}
+.menu-preguntados {
+  width: 310px;
+  height: 290px;
+  margin: 20px auto;
+  background-color: rgba(20, 20, 20, 0.3);
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+  bottom: 15px;
+  position: relative;
+}
+
+.preguntados-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.menu-img-preguntados {
+  width: 310px;
+  display:block;
+  bottom: 0px;
+  position: relative;
+  top: 10px;
+}
+.preguntados-box {
+  width: 200px;
+  height: 150px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  bottom: 12px;
+  padding: 40px;
+}
+
+.menu-options-preguntados {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Aumenté el espacio entre botones */
+  align-items: center;
+  font-family: "Cinzel", serif;
+}
+
+.btn-nivel,
+.btn-tutorial {
+  display: flex; /* ahora es bloque flexible */
+  justify-content: center; /* centra el texto horizontal */
+  align-items: center; /* centra el texto vertical */
+  width: 155px; /* ancho del botón */
+  height: 66px; /* alto del botón */
+  background-image: url("../images/recuadro_modificado.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Cinzel", serif;
+  cursor: pointer;
+  text-decoration: none; /* quita subrayado si es <a> */
+}
+
+.btn-nivel:hover,
+.btn-tutorial:hover {
+  transform: scale(1.05);
+}
+
+.btn-nivel:active,
+.btn-tutorial:active {
+  transform: translateY(3px) scale(0.97);
+  box-shadow: 0 1px 0 #222;
+}
+/*
+============================
+
+         4.2.2) Territorios
+
+============================
+*/
+
+/* General container for the menu */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 350px; /* Adjust width as needed */
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.3); /* Optional: semi-transparent background */
+  border-radius: 15px;
+}
+
+/* "OPCIONES" title style */
+.options-title {
+  background-color: #4b2e1c; /* Dark brown from the image */
+  color: white;
+  font-weight: bold;
+  padding: 10px 40px;
+  border-radius: 10px;
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-family: 'Cinzel', serif;
+}
+
+/* Divider line style */
+.divider {
+  border: none;
+  border-top: 1px solid #c0c0c0; /* Light gray color */
+  width: 60%;
+  margin: 10px auto 20px;
+}
+
+/* Container for the menu image and buttons */
+.menu-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* The background image for the buttons */
+.menu-background {
+  width: 100%;
+  height: auto;
+}
+
+/* Container for the back button */
+.back-button-container {
+  margin-top: 10px;
+}
+
+.menu-territorios {
+  background-color: rgba(20, 20, 20, 0.3);
+  border-radius: 10px;
+  height: 320px;
+  width: 350px;
+  padding: 10px;
+}
+
+.territorios-header {
+  background-color: #4b2e1c;
+  /* marrón oscuro */
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 7px;
+  width: 200px;
+  left: 40px;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  left: 65px
+}
+
+.menu-img-territorios {
+  width: 350px;
+  bottom: 10px;
+  display:block;
+  position: relative;
+  top:10px
+}
+
+.menu-options-territorios {
+  position: absolute;
+  top: 132px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Aumenté el espacio entre botones */
+  align-items: center;
+  font-family: "Cinzel", serif;
+}
+/*
+============================
+
+         4.2.3) Banderas
+
+============================
+*/
+
+#menu-niveles {
+  width: 350px;  /* Ancho del contenedor */
+  height: 390px; /* Altura del contenedor */
+  margin: 20px auto;
+  background-color: rgba(20, 20, 20, 0.3);
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  top: 65px;
+  position: relative;
+  display: flex; /* Centrar contenido */
+  flex-direction: column;
+}
+
+#menu-niveles .menu-header {
+  left: 60px;
+}
+
+#menu-niveles .menu-img {
+  height: 300px;
+}
+
+#menu-niveles .options-title {
+  position: relative;
+  left: 0; /* Anula el 'left' que pudiera tener de otra regla */
+  margin: 0 auto 20px; /* Centra el título horizontalmente */
+}
+
 
 /*
 ============================
@@ -1181,11 +1452,342 @@ hr#tienda.hr-body {
 }
 
 .close-creditos {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close-creditos:hover,
+.close-creditos:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*
+============================
+
+         11) Misiones
+
+============================
+*/
+.misiones-container-pergamino {
+  position: relative; /* <-- La corrección clave */
+  width: 400px;
+  height: 600px;
+  margin: 80px auto 0;
+  top: 80px;
+}
+
+.pergamino-bg {
+  width: 100%;
+  height: 100%;
   position: absolute;
-  top: 6px;
-  right: 16px;
-  font-size: 30px;
-  cursor: pointer;
-  color: #fff;
-  text-decoration: none;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Envía la imagen al fondo */
+}
+
+.misiones-content {
+  position: relative;
+  z-index: 2;
+  padding: 40px;
+  text-align: center;
+  color: #4b2e1c;
+}
+
+.misiones-content h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+#misiones-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 15px;
+}
+
+/* Scrollbar customizado para la lista de misiones */
+#misiones-lista::-webkit-scrollbar {
+width: 8px;
+}
+
+#misiones-lista::-webkit-scrollbar-track {
+background: #d3b892;
+border-radius: 4px;
+}
+
+#misiones-lista::-webkit-scrollbar-thumb {
+background-color: #8b5a2b;
+border-radius: 4px;
+border: 2px solid #d3b892;
+}
+
+.mision-category {
+  background-color: #4b2e1c;
+  color: white;
+  font-family: 'Cinzel', serif;
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.mision-item {
+  display: grid;
+  grid-template-areas:
+      "texto recompensa status"
+      "barra barra barra";
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  background-color: #c1a37c;
+  padding: 10px;
+  border-radius: 8px;
+  gap: 10px;
+  border: 2px solid #4b2e1c;
+}
+
+.mision-texto {
+  grid-area: texto;
+}
+
+.mision-texto p {
+  margin: 0;
+  font-size: 14px;
+  text-align: left;
+  color: #4b2e1c;
+  font-weight: bold;
+}
+
+.mision-recompensa {
+  grid-area: recompensa;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  background-color: #4b2e1c;
+  color: white;
+  padding: 5px 8px;
+  border-radius: 15px;
+}
+
+.moneda-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.mision-progreso-barra {
+  grid-area: barra;
+  background-color: #d3b892;
+  border-radius: 5px;
+  height: 10px;
+  overflow: hidden;
+  border: 1px solid #4b2e1c;
+}
+
+.progreso {
+  background-color: #8b5a2b;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.mision-completa {
+  grid-area: status;
+  color: green;
+  font-size: 24px;
+  font-weight: bold;
+  justify-self: center;
+}
+
+/*
+============================
+
+         12) Estadisticas
+
+============================
+*/
+
+/* Contenedor principal para la sección de estadísticas */
+.stats-container-pergamino {
+  position: relative;
+  width: 400px;
+  height: 600px;
+  margin: 80px auto 0;
+  top: 30px;
+}
+
+/* Nueva clase para la imagen de fondo de la página de estadísticas */
+.pergamino-stats-bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Envía la imagen al fondo */
+}
+
+/* Contenido que aparecerá sobre la imagen de fondo */
+.stats-content {
+  position: relative;
+  z-index: 2; /* Trae el contenido al frente */
+  padding: 60px 40px 40px 40px;
+  text-align: center;
+  color: #4b2e1c;
+  font-family: 'Cinzel', serif;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.titulo-estadisticas {
+  font-size: 28px;
+  font-weight: bold;
+  color: #4b2e1c;
+  margin-bottom: 20px;
+}
+
+.hr-stats {
+  border: none;
+  border-top: 2px solid #4b2e1c;
+  width: 80%;
+  margin: 0 auto 20px;
+}
+
+.user-info-background {
+  background: url(/public/images/slider_final_3.webp) no-repeat center;
+  background-size: 100% 100%;
+  padding: 15px;
+  margin: 0 auto;
+  width: 90%;
+  max-width: 300px;
+}
+
+.user-info-container {
+  color: white;
+}
+
+.user-title-container {
+  margin-bottom: 10px;
+}
+
+.user-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.perfil-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 14px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.xp-container {
+  margin-top: 20px;
+  width: 90%;
+  max-width: 300px;
+  margin: 20px auto 0;
+  color: #4b2e1c;
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.xp-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.xp-bar-background {
+  background-color: #d3b892;
+  border-radius: 8px;
+  height: 18px;
+  overflow: hidden;
+  border: 2px solid #4b2e1c;
+}
+
+#xp-bar-foreground {
+  background-color: #8b5a2b;
+  height: 100%;
+  border-radius: 5px;
+  width: 0%; /* Este valor se actualizará con JS */
+}
+
+/*
+============================
+
+         13) Capitales
+
+============================
+*/
+
+.menu-options-capitales {
+  position: absolute;
+  top: 116px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Aumenté el espacio entre botones */
+  align-items: center;
+  font-family: "Cinzel", serif;
+}
+
+.menu-img-capitales {
+  width: 300px;
+  display:block;
+  bottom: 0px;
+  position: relative;
+  top:10px
+}
+
+.menu-divider-capitales {
+  border: none;
+  border-top: 2px solid rgb(202, 202, 202);
+  width: 80%;
+  text-align: center;
+}
+
+.menu-container-capitales {
+  margin: 20px auto;
+  background-color: rgba(20, 20, 20, 0.3);
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  top: 65px;
+  position: relative;
+}
+
+.menu-img-niveles {
+  width: 300px;
+  height: 400px;
+  top:15px;
+  border-radius: 12px;
+  text-align: center;
+  justify-content: center;
+  position: relative;
 }

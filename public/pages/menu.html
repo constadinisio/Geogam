@@ -69,7 +69,7 @@
           <span class="nav-text">MISIONES</span>
         </a>
         <a href="estadisticas.html" class="nav-item">
-          <img src="../images/estadisticas.webp" alt="Estadísticas" />
+          <img src="../images/EstadísticasFinal.png" alt="Estadísticas" />
           <span class="nav-text">ESTADISTICAS</span>
         </a>
       </div>
@@ -83,31 +83,13 @@
       <p id="copyright">©Marzzatino</p>
     </div>
 
-    <!-- Audio -->
-    <audio id="background-music" loop>
-      <source src="../audio/background_music.wav" type="audio/wav" />
-      Tu navegador no soporta el elemento de audio.
-    </audio>
-
     <!-- Scripts -->
+    <!-- Se mantiene el script de configuración de Firebase para inicializar la conexión -->
     <script type="module" src="../../backend/config/firebase-config.js"></script>
 
-    <!-- Script para iniciar la música y aplicar volumen guardado -->
-    <script type="module">
-      import { playMusic, setVolume } from '../../backend/functions/misc/musicPlayer.js';
+    <!-- El script que gestionaba la música de fondo ha sido eliminado para evitar errores. -->
 
-      document.addEventListener('DOMContentLoaded', () => {
-        const savedVolume = localStorage.getItem('musicVolume');
-        if (savedVolume !== null) {
-          setVolume(parseFloat(savedVolume));
-        } else {
-          setVolume(0.5); // Volumen por defecto
-        }
-        playMusic();
-      });
-    </script>
-
-    <!-- NUEVO GESTOR DE CARGA INTELIGENTE -->
+    <!-- El gestor de carga inteligente se encarga de la autenticación y de mostrar el contenido. -->
     <script type="module" src="../../backend/functions/misc/loader.js"></script>
 
   </body>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <rect width="900" height="600" fill="#fff"/>
+  <circle cx="450" cy="300" r="150" fill="#CD2E3A"/>
+  <path d="M450 150a150 150 0 0 1 0 300" fill="#0047A0"/>
+  <g fill="#000">
+    <path d="M200 150h50v200h-50z"/>
+    <path d="M200 150h100v50h-100z m0 150h100v50h-100z"/>
+    <path d="M650 150h50v200h-50z"/>
+    <path d="M650 225h100v50h-100z"/>
+    <path d="M200 450h100v50h-100z"/>
+    <path d="M650 450h100v50h-100z m-50-100h100v50h-100z"/>
+  </g>
+</svg>

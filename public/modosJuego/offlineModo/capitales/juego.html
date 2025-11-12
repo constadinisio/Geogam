@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capitales - Juego</title>
+    <link rel="stylesheet" href="/public/styles/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap">
+</head>
+<body>
+    <!-- Contenedor principal del juego que será reemplazado por el resumen -->
+    <div id="juego-container">
+        <div class="header-juego">
+            <a href="niveles.html" class="btn-salir-juego">
+                <img src="/public/images/boton-salir.webp" alt="Salir">
+            </a>
+            <div id="timer" class="timer-display">15</div>
+        </div>
+
+        <div class="menu-container centered">
+            <div class="menu-header" id="pregunta-enunciado">Cargando pregunta...</div>
+            <hr class="menu-divider-juego" />
+            
+            <div id="opciones-container" class="menu-options-juego">
+                <!-- Las opciones de respuesta se generarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- El script del juego -->
+    <script type="module" src="/backend/functions/game/capitales.js"></script>
+</body>
+</html>

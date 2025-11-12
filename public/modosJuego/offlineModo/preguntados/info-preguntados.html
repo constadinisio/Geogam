@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntados</title>
+    <link rel="stylesheet" href="../../styles/styles.css"> </head>
+<body>
+
+    <div id="modalPreguntados" class="modal" style="display: block;">
+        <div class="modal-contenido-preguntados">
+            <a href="preguntados.html" class="close-creditos">&times;</a>
+            <div class="modal-header"></div>
+            <div class="modal-body">
+                <p><strong>Modo de Juego:</strong> Preguntas geográficas cada 15 segundos.</p>
+                <p><strong>Objetivo:</strong> Responder de manera correcta la mayor cantidad de preguntas.</p>
+            </div>
+            <div class="modal-footer">
+                <p>¡A demostrar conocimiento!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const modal = document.getElementById('modalPreguntados');
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            window.location.href = 'preguntados.html';
+        }
+    }
+    </script>
+
+</body>
+</html>

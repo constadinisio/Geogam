@@ -5,31 +5,29 @@ import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            // Usamos Firestore, igual que en juego.js
+            // Usamos la referencia a Firestore (db), no a Realtime Database.
             const userDocRef = doc(db, 'users', user.uid);
             try {
                 const docSnap = await getDoc(userDocRef);
-                let userLevel = 1; // Nivel por defecto
-
+                let userXP = 0;
                 if (docSnap.exists()) {
-                    // Extraemos el nivel de los datos del usuario en Firestore
-                    // Asumimos que el campo se llama 'nivel' (o 'level')
-                    const userData = docSnap.data();
-                    userLevel = userData.nivel || userData.level || 1;
-                } else {
-                    console.log("No se encontró el documento del usuario en Firestore.");
+                    userXP = docSnap.data().xp || 0;
                 }
+                // Calcula el nivel basado en la XP (asumiendo 1000 XP por nivel)
+                const userLevel = Math.floor(userXP / 1000) + 1;
                 
                 actualizarBotonesDificultad(userLevel);
 
             } catch (error) {
-                console.error("Error al obtener el nivel del usuario desde Firestore: ", error);
-                // En caso de error, mantenemos los niveles bloqueados por seguridad
+                console.error("Error al obtener los datos del usuario: ", error);
+                // En caso de error, mantenemos los niveles bloqueados por seguridad.
                 actualizarBotonesDificultad(1);
             }
         } else {
-            // Si no hay usuario, redirigir al login
-            window.location.href = "/public/pages/login.html";
+            // Si no hay usuario, se le debería redirigir al login.
+            console.warn("Usuario no autenticado en la página de niveles.");
+            // Por ahora, simplemente se mantienen los niveles bloqueados.
+            actualizarBotonesDificultad(1);
         }
     });
 });
@@ -38,27 +36,34 @@ function actualizarBotonesDificultad(nivel) {
     const btnMedio = document.getElementById('btn-nivel-medio');
     const btnDificil = document.getElementById('btn-nivel-dificil');
 
-    if (!btnMedio || !btnDificil) return; // Salir si los botones no existen
-
     // Nivel Medio: Requiere nivel 5
     if (nivel >= 5) {
         btnMedio.classList.remove('locked');
         btnMedio.innerHTML = 'Media';
-        btnMedio.href = 'juego.html?dificultad=Media';
+        // Se asigna el enlace solo si está desbloqueado
+        btnMedio.href = 'banderas.html?dificultad=Media';
     } else {
         btnMedio.classList.add('locked');
         btnMedio.innerHTML = 'Media <span class="lock-icon">&#128274;</span> (Nivel 5)';
-        btnMedio.removeAttribute('href');
+        btnMedio.removeAttribute('href'); // Se quita el enlace si está bloqueado
     }
 
     // Nivel Difícil: Requiere nivel 10
     if (nivel >= 10) {
         btnDificil.classList.remove('locked');
         btnDificil.innerHTML = 'Difícil';
-        btnDificil.href = 'juego.html?dificultad=Difícil';
+        btnDificil.href = 'banderas.html?dificultad=Difícil';
     } else {
         btnDificil.classList.add('locked');
         btnDificil.innerHTML = 'Difícil <span class="lock-icon">&#128274;</span> (Nivel 10)';
         btnDificil.removeAttribute('href');
     }
+
+    // Añadir un listener para alertar al usuario si intenta hacer clic en un nivel bloqueado
+    document.querySelectorAll('.menu-btn.locked').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault(); // Previene cualquier navegación
+            alert('Debes alcanzar el nivel requerido para desbloquear esta dificultad.');
+        });
+    });
 }

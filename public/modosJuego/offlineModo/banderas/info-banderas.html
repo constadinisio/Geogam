@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banderas</title>
+    <link rel="stylesheet" href="../../styles/styles.css"> </head>
+<body>
+
+    <div id="modalBanderas" class="modal" style="display: block;">
+        <div class="modal-contenido-preguntados">
+            <a href="banderas.html" class="close-creditos">&times;</a>
+            <div class="modal-header"></div>
+            <div class="modal-body">
+                <p><strong>Modo de Juego:</strong> Adivina el país al que pertenece la bandera.</p>
+                <p><strong>Objetivo:</strong> Reconocer la mayor cantidad de banderas en el menor tiempo posible.</p>
+            </div>
+            <div class="modal-footer">
+                <p>¡Demuestra tu conocimiento del mundo!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const modal = document.getElementById('modalBanderas');
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            window.location.href = 'banderas.html';
+        }
+    }
+    </script>
+
+</body>
+</html>
