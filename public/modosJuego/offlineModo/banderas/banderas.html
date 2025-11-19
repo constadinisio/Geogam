@@ -1,38 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/public/styles/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banderas</title>
+    <title>Adivina la Bandera - World Dominator</title>
+    <link rel="stylesheet" href="/public/styles/styles.css">
 </head>
 <body>
-    <!-- Botón volver (solo visible si no se está jugando) -->
-    <a href="../offline-mode.html" class="btn-volver">
-        <img src="/public/images/boton-salir.webp" alt="volver">
-    </a>
-
-        
-
-    <!-- Contenedor del Juego (inicialmente oculto) -->
+    <div class="container-banderas">
+        <a href="../offline-mode.html" class="btn-volver">
+            <img src="/public/images/boton-salir.webp" alt="Volver">
+        </a>
+    </div>
     <div id="juego-container" style="display: none;">
-        <div class="header-juego">
-            <div id="timer" class="timer-display">15</div>
-        </div>
+        <div class="game-background">
+            <a href="niveles-banderas.html" class="btn-volver in-game">
+                <img src="/public/images/boton-salir.webp" alt="Volver">
+            </a>
 
-        <div class="menu-container centered">
-            <div class="bandera-container">
-                <img id="bandera-imagen" src="" alt="Bandera">
+            <div class="game-header-info">
+                <div class="timer-container-game">
+                    <img src="/public/images/reloj_icono.webp" alt="Tiempo">
+                    <span id="timer">500s</span>
+                </div>
             </div>
-            <hr class="menu-divider-juego" />
-            
-            <div id="opciones-container" class="menu-options-juego">
-                <!-- Opciones generadas por JS -->
+            <div class="game-content-wrapper" id="contenedor-banderas">
+
+                <div class="game-body-flags">
+                    <div class="game-title" id="game-title-flags">ADIVINA LA BANDERA</div>
+                    <div class="flag-image-container">
+                        <img id="bandera-imagen" src="" alt="Bandera">
+                    </div>
+                    <div id="opciones-container" class="opciones-wrapper">
+                        <!-- Opciones generadas por JS -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script type="module" src="/backend/functions/game/banderas.js"></script>
+    <script src="/backend/functions/game/banderas.js" type="module"></script>
 </body>
 </html>

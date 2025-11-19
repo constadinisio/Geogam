@@ -7,19 +7,21 @@
     <link rel="stylesheet" href="/public/styles/styles.css">
 </head>
 <body>
+    <!-- Botón volver -->
+    <a href="territorios.html" class="btn-volver">
+        <img src="/public/images/boton-salir.webp" alt="volver">
+    </a>
+
     <div class="container">
-        <div class="options-title">OPCIONES</div>
-        <hr class="divider">
-        <div class="menu-container">
-            <img src="/public/images/fondorecuadro2.webp" alt="Menu Background" class="menu-background">
+        <div class="menu-header" id="niveles-header">Elige la Dificultad</div>
+        <hr class="menu-divider"/>
+        <div class="menu-body">
+            <img src="/public/images/fondorecuadro2.webp" alt="Menu Background" class="menu-background" id="background-niveles">
             <div class="menu-options">
                 <a href="juego.html?dificultad=Fácil" class="menu-btn">Fácil</a>
                 <a href="juego.html?dificultad=Media" id="btn-nivel-medio" class="menu-btn">Media</a>
                 <a href="juego.html?dificultad=Difícil" id="btn-nivel-dificil" class="menu-btn">Difícil</a>
             </div>
-        </div>
-        <div class="back-button-container">
-            <a href="territorios.html" class="menu-btn">Atrás</a>
         </div>
     </div>
     <script type="module" src="/backend/functions/game/niveles.js"></script>

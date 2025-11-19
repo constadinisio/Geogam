@@ -1,27 +1,35 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capitales - Menú</title>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
     <link rel="stylesheet" href="/public/styles/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marzzatino</title>
+  </head>
 
-    <a href="/public/modosJuego/offlineModo/offline-mode.html" class="btn-volver">
-        <img src="/public/images/boton-salir.webp" alt="volver">
-    </a>
+  <body>
+    <!-- Botón volver -->
 
-    <div class="menu-container-capitales">
-        <div class="menu-header">Capitales</div>
-        <hr class="menu-divider-capitales" />
-        <div class="menu-body">
-            <img src="/public/images/fondorecuadro2.webp" alt="Decoración" class="menu-img-capitales" />
-            <div class="menu-options-capitales">
-                <a href="niveles.html" class="menu-btn">Niveles</a>
-                <a href="info-capitales.html" class="menu-btn">Cómo Jugar</a>
-            </div>
+  <a href="../offline-mode.html" class="btn-volver">
+    <img src="/public/images/boton-salir.webp" alt="volver">
+  </a>
+
+  <div class="menu-capitales" id="offline-mode-preguntados">
+  
+    <div class="capitales-header">Capitales</div>
+    <hr class="preguntados-divider" />
+    <div class="capitales-container">
+      <div class="preguntados-box">
+        <img src="/public/images/fondorecuadro2.webp" alt="Decoración" class="menu-img-preguntados" />
+        <div class="menu-options-capitales-niveles">
+            <a href="capitales-niveles.html" class="btn-nivel">Niveles</a>
+            <a href="info-capitales.html" class="btn-tutorial">Cómo Jugar</a>
         </div>
     </div>
+    </div>
+    </div>
+  </div>
+
 </body>
 </html>

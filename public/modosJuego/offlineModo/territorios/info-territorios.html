@@ -3,25 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cómo Jugar - Territorios</title>
-    <link rel="stylesheet" href="/public/styles/styles.css">
+    <title>Información - Territorios</title>
+    <!-- La ruta al CSS debe ser relativa al archivo actual -->
+    <link rel="stylesheet" href="../../../styles/styles.css"> 
 </head>
 <body>
-    <div class="menu-container">
-        <div class="menu-header">Cómo Jugar</div>
-        <hr class="menu-divider" />
-        <div class="menu-body">
-            <div class="info-text">
-                <p>En el modo Territorios, pondrás a prueba tus conocimientos de geografía.</p>
-                <p>Se te presentará una imagen que puede ser:</p>
-                <ul>
-                    <li>El contorno de un país.</li>
-                    <li>Un mapa con un país resaltado.</li>
-                    <li>Banderas de diferentes territorios.</li>
-                </ul>
-                <p>Debajo de la imagen, aparecerá una pregunta relacionada y tendrás que elegir la respuesta correcta entre cuatro opciones. ¡Responde rápido, el tiempo es limitado!</p>
+    <!-- Botón para volver a la selección de dificultad de territorios -->
+    <a href="territorios.html" class="btn-volver">
+        <img src="/public/images/boton-salir.webp" alt="Volver">
+    </a>
+
+    <!-- Usamos la misma estructura de pergamino -->
+    <div class="body-pergamino" style="width: 430px;">
+        <h1 class="pergamino-header" id="info-territorios">Territorios</h1>
+        <hr class="hr-body" style="top: -45px;">
+
+        <!-- Reutilizamos el contenedor de misiones para el contenido -->
+        <div class="misiones-content" style="padding-top: 15px; padding-bottom: 15px; bottom: 90px; right: 5px;">
+            
+            <div style="margin-bottom: 15px;">
+                <h2 style="font-size: 20px; margin-bottom: 10px;">Modo de Juego:</h2>
+                <p style="font-size: 16px; line-height: 1.4; margin-left: 15px;">
+                    Pon a prueba tu conocimiento geográfico. Se te presentará la silueta de un país o un territorio resaltado en un mapa.
+                </p>
             </div>
-            <a href="territorios.html" class="menu-btn">Volver</a>
+
+            <div style="margin-bottom: 15px;">
+                <h2 style="font-size: 20px; margin-bottom: 10px;">Objetivo:</h2>
+                <p style="font-size: 16px; line-height: 1.4; margin-left: 15px;">
+                    Identifica correctamente el territorio mostrado eligiendo la respuesta correcta entre cuatro opciones antes de que se acabe el tiempo.
+                </p>
+            </div>
+
+            <p style="font-size: 18px; font-weight: bold; margin-top: 20px;">¡Demuestra que dominas el mapa!</p>
+        
         </div>
     </div>
 </body>

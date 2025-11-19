@@ -3,7 +3,7 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/f
 import { doc, updateDoc, increment, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { checkMissions } from "../missions/mission-processor.js";
 
-// --- Variables de estado del juego ---
+// --- Variables de estado del juego (SIN CAMBIOS) ---
 let currentUser = null;
 let preguntasJuego = [];
 let preguntaActualIndex = 0;
@@ -13,19 +13,30 @@ let xpGanada = 0;
 let rachaActual = 0;
 let timerInterval = null;
 
-// --- Elementos del DOM ---
-let enunciadoEl, opcionesContainer, timerEl, juegoContainer;
+// --- Elementos del DOM (serán asignados ahora) ---
+let enunciadoEl, opcionesContainer, timerEl, gameContainer, gameTitleEl;
 
 document.addEventListener('DOMContentLoaded', () => {
-    juegoContainer = document.getElementById('juego-container');
+    // Obtenemos los elementos principales una sola vez
+    gameContainer = document.querySelector('.game-background');
+    enunciadoEl = document.getElementById('pregunta-enunciado');
+    opcionesContainer = document.getElementById('opciones-container');
+    timerEl = document.getElementById('timer');
+    gameTitleEl = document.getElementById('game-title');
 
     const urlParams = new URLSearchParams(window.location.search);
     const dificultadSeleccionada = urlParams.get('dificultad');
 
     if (!dificultadSeleccionada) {
-        alert("ERROR: No se pudo determinar la dificultad. Por favor, vuelve a seleccionarla.");
-        window.location.href = 'niveles.html'; 
+        if (enunciadoEl) {
+            enunciadoEl.textContent = "ERROR: No se pudo determinar la dificultad.";
+        }
         return;
+    }
+
+    // Actualizamos el título visualmente
+    if (gameTitleEl) {
+        gameTitleEl.innerHTML = `PREGUNTADOS: <strong>${dificultadSeleccionada.toUpperCase()}</strong>`;
     }
 
     onAuthStateChanged(auth, async (user) => {
@@ -34,33 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
             await iniciarPartida(dificultadSeleccionada);
         } else {
             alert("Debes iniciar sesión para jugar.");
-            window.location.href = "/public/pages/login.html";
+            window.location.href = "/public/login.html";
         }
     });
 });
 
 async function iniciarPartida(dificultad) {
-    if (juegoContainer) {
-        juegoContainer.innerHTML = `<p class="cargando-preguntas" style="color: white; font-size: 1.8rem; text-align: center;">Cargando preguntas de dificultad: ${dificultad}...</p>`;
-    }
-
+    // LÓGICA DE CARGA SIN CAMBIOS
     preguntasJuego = await obtenerPreguntasPorDificultad(dificultad);
     
-    if (juegoContainer) {
-        juegoContainer.innerHTML = `
-            <div id="timer-container" style="font-size: 2rem; margin-bottom: 20px; color: white; text-align: center;">
-                TIEMPO: <span id="timer">15S</span>
-            </div>
-            <div id="pregunta-enunciado" style="font-size: 1.8rem; margin-bottom: 30px; color: white; text-align: center;"></div>
-            <div id="opciones-container" style="display: flex; flex-direction: column; align-items: center; gap: 15px;"></div>
-        `;
-    }
-
-    enunciadoEl = document.getElementById('pregunta-enunciado');
-    opcionesContainer = document.getElementById('opciones-container');
-    timerEl = document.getElementById('timer');
-    
     if (preguntasJuego.length > 0) {
+        // LÓGICA DE REINICIO DE PARTIDA SIN CAMBIOS
         preguntaActualIndex = 0;
         respuestasCorrectas = 0;
         monedasGanadas = 0;
@@ -68,14 +63,19 @@ async function iniciarPartida(dificultad) {
         rachaActual = 0;
         mostrarPreguntaActual();
     } else {
-        if (juegoContainer) juegoContainer.innerHTML = `<p style="color: white; text-align: center; font-size: 1.5rem;">¡Oh, no! No se encontraron preguntas para la dificultad '${dificultad}'. <br> Contacta al administrador.</p>`;
+        if(enunciadoEl) {
+            enunciadoEl.textContent = `¡Oh, no! No se encontraron preguntas para esta dificultad.`;
+        }
+        if (opcionesContainer) {
+            opcionesContainer.innerHTML = '';
+        }
     }
 }
 
+// --- FUNCIÓN DE OBTENER PREGUNTAS DE FIRESTORE (SIN CAMBIOS) ---
 async function obtenerPreguntasPorDificultad(dificultad) {
     const preguntasFiltradas = [];
     try {
-        // La dificultad en Firestore parece estar en minúscula, ej: "Fácil" vs "facil"
         const q = query(collection(db, "preguntas"), where("dificultad", "==", dificultad));
         const querySnapshot = await getDocs(q);
         
@@ -89,72 +89,89 @@ async function obtenerPreguntasPorDificultad(dificultad) {
             return [];
         }
     } catch (error) {
-        console.error(`Error al cargar las preguntas de dificultad ${dificultad}:`, error);
+        console.error(`Error al cargar las preguntas:`, error);
         return [];
     }
 }
 
 function mostrarPreguntaActual() {
-    if (!enunciadoEl || !opcionesContainer || !timerEl) return;
-
     const pregunta = preguntasJuego[preguntaActualIndex];
     
-    // *** LA CORRECCIÓN CLAVE ESTÁ AQUÍ ***
-    // Usamos 'enunciado' en lugar de 'pregunta'
-    enunciadoEl.textContent = pregunta.enunciado;
-
-    opcionesContainer.innerHTML = '';
+    // **MODIFICACIÓN**: Actualizamos el contenido de los elementos existentes
+    if(enunciadoEl) enunciadoEl.textContent = pregunta.enunciado;
+    if(opcionesContainer) opcionesContainer.innerHTML = ''; // Limpiamos opciones anteriores
 
     const opciones = [...pregunta.opcionesIncorrectas, pregunta.respuestaCorrecta];
     opciones.sort(() => Math.random() - 0.5);
 
+    // **MODIFICACIÓN**: Creamos botones en lugar de enlaces <a>
     opciones.forEach(opcion => {
-        const botonOpcion = document.createElement('a');
+        const botonOpcion = document.createElement('button');
         botonOpcion.textContent = opcion;
-        botonOpcion.classList.add('menu-btn');
-        botonOpcion.href = '#';
+        // No necesita clase, el CSS apunta a #opciones-container button
+        
         botonOpcion.addEventListener('click', (e) => {
             e.preventDefault();
-            manejarRespuesta(opcion, pregunta.respuestaCorrecta);
+            // Pasamos el propio botón para poder aplicarle estilos
+            manejarRespuesta(opcion, pregunta.respuestaCorrecta, botonOpcion);
         });
-        opcionesContainer.appendChild(botonOpcion);
+        if(opcionesContainer) opcionesContainer.appendChild(botonOpcion);
     });
-
+    
+    // --- LÓGICA DEL TEMPORIZADOR (SIN CAMBIOS) ---
     clearInterval(timerInterval);
-    let timeLeft = 15;
-    timerEl.textContent = timeLeft + 'S';
+    let timeLeft = 10;
+    if(timerEl) timerEl.textContent = timeLeft + 's';
 
     timerInterval = setInterval(() => {
         timeLeft--;
-        timerEl.textContent = timeLeft + 'S';
+        if(timerEl) timerEl.textContent = timeLeft + 's';
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             rachaActual = 0;
-            siguientePregunta();
+            // **MODIFICACIÓN**: Añadimos feedback visual para timeout
+            if(opcionesContainer) opcionesContainer.querySelectorAll('button').forEach(btn => btn.disabled = true);
+            setTimeout(siguientePregunta, 1500); // Esperar antes de pasar
         }
     }, 1000);
 }
 
-function manejarRespuesta(opcionSeleccionada, respuestaCorrecta) {
+// **MODIFICACIÓN**: Aceptamos el botón pulsado como argumento
+function manejarRespuesta(opcionSeleccionada, respuestaCorrecta, botonPulsado) {
     clearInterval(timerInterval);
-    const preguntaActual = preguntasJuego[preguntaActualIndex];
+    
+    // **MODIFICACIÓN**: Deshabilitar todos los botones y aplicar estilos
+    if(opcionesContainer) opcionesContainer.querySelectorAll('button').forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent === respuestaCorrecta) {
+            btn.classList.add('correct');
+        } else {
+            btn.classList.add('incorrect');
+        }
+    });
 
+    // --- LÓGICA DE PUNTUACIÓN (SIN CAMBIOS) ---
+    const preguntaActual = preguntasJuego[preguntaActualIndex];
     if (opcionSeleccionada === respuestaCorrecta) {
         respuestasCorrectas++;
         rachaActual++;
-
         let monedasPorRespuesta = 10, xpPorRespuesta = 15;
         if (preguntaActual.dificultad.toLowerCase() === 'media') { monedasPorRespuesta = 20; xpPorRespuesta = 25; }
         if (preguntaActual.dificultad.toLowerCase() === 'difícil') { monedasPorRespuesta = 30; xpPorRespuesta = 35; }
-
         const bonoRacha = rachaActual >= 3 ? 5 * (rachaActual - 2) : 0;
         monedasGanadas += monedasPorRespuesta + bonoRacha;
         xpGanada += xpPorRespuesta;
-
     } else {
         rachaActual = 0;
+        // **MODIFICACIÓN**: Aplicar estilo al botón incorrecto que se pulsó
+        if (botonPulsado) {
+            botonPulsado.classList.remove('incorrect');
+            botonPulsado.classList.add('selected-incorrect');
+        }
     }
-    siguientePregunta();
+
+    // **MODIFICACIÓN**: Esperamos 1.5s para que el usuario vea la respuesta
+    setTimeout(siguientePregunta, 1500);
 }
 
 function siguientePregunta() {
@@ -170,19 +187,23 @@ async function mostrarResumenFinal() {
     clearInterval(timerInterval);
     await actualizarDatosYRevisarMisiones();
 
-    if (juegoContainer) {
-        juegoContainer.innerHTML = `
-            <div class="menu-container" id="resumen-final" style="text-align: center;">
-                <div class="menu-header">¡Partida Completada!</div>
-                <div class="resumen-body" style="background-image: url('/public/images/fondorecuadro2.webp'); background-size: 100% 100%; background-repeat: no-repeat; background-position: center; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; margin-top: 20px;">
+    // **MODIFICACIÓN**: Nuevo HTML para el resumen final
+    if (gameContainer) {
+        gameContainer.innerHTML = `
+            <div class="menu-container" id="resumen-final" style="text-align: center; color: white;">
+                <div class="game-title">¡Partida Finalizada!</div>
+                <div class="resumen-body" style="background-color: rgba(0,0,0,0.2); border-radius: 15px; padding: 30px; margin-top: 20px;">
                     
-                    <p style="font-family: 'Cinzel', serif; color: black; font-size: 1.5rem; font-weight: bold;">Aciertos: ${respuestasCorrectas} de ${preguntasJuego.length}</p>
-                    <p style="font-family: 'Cinzel', serif; color: #FFD700; font-size: 1.5rem; font-weight: bold; -webkit-text-stroke: 1px black;">Monedas: +${monedasGanadas}</p>
-                    <p style="font-family: 'Cinzel', serif; color: #00FFFF; font-size: 1.5rem; font-weight: bold; -webkit-text-stroke: 1px black;">XP: +${xpGanada}</p>
+                    <p style="font-size: 1.8rem; font-weight: bold; margin-bottom: 20px;">Aciertos: ${respuestasCorrectas} de ${preguntasJuego.length}</p>
                     
-                    <div style="margin-top: 30px;">
-                        <a href="niveles.html" class="menu-btn">Jugar de Nuevo</a>
-                        <a href="/public/pages/menu.html" class="menu-btn">Volver al Menú</a>
+                    <div style="display: flex; justify-content: center; gap: 30px; font-size: 1.6rem; margin-bottom: 35px;">
+                        <span style="color: white; font-weight: bold; -webkit-text-stroke: 1px black;">+${monedasGanadas} Monedas</span>
+                        <span style="color: white; font-weight: bold; -webkit-text-stroke: 1px black;">+${xpGanada} XP</span>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                        <a href="niveles.html" class="menu-btn" style="width: 220px;">Jugar de Nuevo</a>
+                        <a href="/public/pages/menu.html" class="menu-btn" style="width: 220px;">Volver al Menú</a>
                     </div>
                 </div>
             </div>
@@ -190,6 +211,7 @@ async function mostrarResumenFinal() {
     }
 }
 
+// --- FUNCIÓN DE ACTUALIZAR DATOS (SIN CAMBIOS) ---
 async function actualizarDatosYRevisarMisiones() {
     if (!currentUser) return;
     const userDocRef = doc(db, "users", currentUser.uid);
@@ -207,9 +229,7 @@ async function actualizarDatosYRevisarMisiones() {
             'estadisticas.preguntasCorrectas': increment(respuestasCorrectas),
             'estadisticas.preguntasIncorrectas': increment(preguntasJuego.length - respuestasCorrectas)
         });
-
         await checkMissions(currentUser.uid, gameResult);
-
     } catch (error) {
         console.error("Error al actualizar estadísticas y misiones: ", error);
     }

@@ -351,12 +351,14 @@ hr {
   border: none;
 
   color: white;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   font-family: "Cinzel", serif;
+  text-align: center;
 
   cursor: pointer;
   text-decoration: none; /* quita subrayado si es <a> */
+  white-space: normal;
 }
 
 .menu-btn:hover {
@@ -601,6 +603,18 @@ hr {
   transform: translateY(3px) scale(0.97);
   box-shadow: 0 1px 0 #222;
 }
+
+#info-preguntados {
+  top: 10px;
+}
+
+#juego-container {
+    width: 400px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 20px;
+}
+
 /*
 ============================
 
@@ -609,7 +623,55 @@ hr {
 ============================
 */
 
-/* General container for the menu */
+/* Contenedor del menú de niveles de Territorios */
+.menu-territorios {
+  background-color: rgba(20, 20, 20, 0.3);
+  border-radius: 10px;
+  height: 320px;
+  width: 350px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.territorios-header {
+  background-color: #4b2e1c;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 7px;
+  width: 220px; /* Ajustado */
+  text-align: center;
+  margin-bottom: 10px; /* Espacio agregado */
+}
+
+.menu-img-territorios {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+.menu-options-territorios {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  font-family: "Cinzel", serif;
+  margin-top: -60px; /* Ajuste para superponer sobre la imagen */
+  position: relative;
+  z-index: 1;
+  bottom: 120px;
+}
+
+/*
+============================
+
+         Juego Territorios Fix
+
+============================
+*/
+
 .container {
   display: flex;
   flex-direction: column;
@@ -622,87 +684,106 @@ hr {
   border-radius: 15px;
 }
 
-/* "OPCIONES" title style */
-.options-title {
-  background-color: #4b2e1c; /* Dark brown from the image */
+/* Contenedor principal del juego de territorios */
+#juego-container.territorios {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100vw;
+    height: 100vh;
+    padding: 90px 20px 20px 20px; /* Aumentado el padding superior */
+    box-sizing: border-box;
+}
+
+/* Header del juego para territorios */
+.header-juego.territorios {
+    position: absolute;
+    top: 20px; /* Bajado un poco */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Ajuste específico para el botón de volver en la pantalla de juego */
+.btn-volver.in-game {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 20;
+}
+
+/* Contenedor del menú centrado para territorios */
+.menu-container.centered.territorios {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 380px;
+    top: 90px;
+    position: relative;
+}
+
+/* Estilo para el enunciado de la pregunta */
+#pregunta-enunciado.menu-header {
+    background-color: #4b2e1c;
+    color: white;
+    font-weight: bold;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.4rem;
+    text-align: center;
+    width: 90%;
+    position: static; /* Clave: resetear la posición */
+    left: auto;
+}
+
+/* Contenedor de la imagen del territorio */
+.territorio-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    width: 95%; /* Un poco más ancho */
+    max-width: 340px;
+    box-sizing: border-box;
+}
+
+#pregunta-imagen {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Divisor en el juego */
+.menu-divider-juego {
+    border-color: #4b2e1c;
+    width: 80%;
+}
+
+/* Contenedor de las opciones de respuesta */
+#opciones-container.menu-options-juego {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    top: 90px;
+    position: relative;
+}
+
+#timerTerritorio {
+  font-size: 20px;
   color: white;
-  font-weight: bold;
-  padding: 10px 40px;
-  border-radius: 10px;
-  font-size: 24px;
-  margin-bottom: 10px;
-  font-family: 'Cinzel', serif;
-}
-
-/* Divider line style */
-.divider {
-  border: none;
-  border-top: 1px solid #c0c0c0; /* Light gray color */
-  width: 60%;
-  margin: 10px auto 20px;
-}
-
-/* Container for the menu image and buttons */
-.menu-container {
-  position: relative;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-/* The background image for the buttons */
-.menu-background {
-  width: 100%;
-  height: auto;
-}
-
-/* Container for the back button */
-.back-button-container {
-  margin-top: 10px;
-}
-
-.menu-territorios {
-  background-color: rgba(20, 20, 20, 0.3);
-  border-radius: 10px;
-  height: 320px;
-  width: 350px;
-  padding: 10px;
-}
-
-.territorios-header {
-  background-color: #4b2e1c;
-  /* marrón oscuro */
-  color: white;
-  font-weight: bold;
-  padding: 10px;
-  border-radius: 7px;
-  width: 200px;
-  left: 40px;
-  position: relative;
   text-align: center;
-  justify-content: center;
-  left: 65px
+  margin-bottom: 20px;
+  background-color: rgba(20, 20, 20, 0.4);
+  border-radius: 20px;
 }
 
-.menu-img-territorios {
-  width: 350px;
-  bottom: 10px;
-  display:block;
-  position: relative;
-  top:10px
-}
-
-.menu-options-territorios {
-  position: absolute;
-  top: 132px;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 2px; /* Aumenté el espacio entre botones */
-  align-items: center;
-  font-family: "Cinzel", serif;
-}
 /*
 ============================
 
@@ -719,7 +800,6 @@ hr {
   padding: 15px;
   border-radius: 12px;
   text-align: center;
-  top: 65px;
   position: relative;
   display: flex; /* Centrar contenido */
   flex-direction: column;
@@ -731,6 +811,15 @@ hr {
 
 #menu-niveles .menu-img {
   height: 300px;
+}
+
+#niveles-header {
+  left: 0px;
+}
+
+#background-niveles {
+  height: 295px;
+  width: 350px;
 }
 
 #menu-niveles .options-title {
@@ -1087,14 +1176,26 @@ hr {
   align-items: center;
 }
 
-.modal-content {
-  background: #73530a;
+.modal-content-delete {
+  background-color:#c18a42 ;
   padding: 20px 30px;
   border-radius: 12px;
   text-align: center;
   font-family: "Cinzel", serif;
   position: relative;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  width:330px;
+}
+
+.modal-content-elim {
+  background-color:#c18a42 ;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  font-family: "Cinzel", serif;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  width: 330px;
 }
 
 .modal-content .close {
@@ -1129,9 +1230,50 @@ hr {
 }
 
 .elimcuenta {
-  color: white;
+  color: black;
+
 }
 
+.config-delete-btn {
+  background: url("../images/fondo-boton1.webp") no-repeat center center;
+  background-size: 100% 100%;
+  border: none;
+  color: #fff;
+  font-family: "Cinzel", serif;
+  font-size: 13.5px; /* corregido */
+  width: 115px;
+  height: 50px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  box-shadow: 0 2px 0 #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pass-delete-camp {
+  background-color:#d3b892;
+  border-radius: 5px;
+  height: 40px;
+  width: 180px;
+}
+
+.config-elim-btn-dos {
+    background: url("../images/fondo-boton1.webp") no-repeat center center;
+    background-size: 100% 100%;
+    border: none;
+    color: #fff;
+    font-family: "Cinzel", serif;
+    font-size: 13.5px; /* corregido */
+    width: 115px;
+    height: 37px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    box-shadow: 0 2px 0 #222;
+    height: 50px;
+}
 /*
 ============================
 
@@ -1206,8 +1348,8 @@ hr {
 
 .shop-container .body-pergamino {
   position: relative;
-  top: 90px;
-  right: 20px;
+  top: 115px;
+  right: 6px;
 }
 
 .shop-container .coin-balance {
@@ -1354,11 +1496,14 @@ hr#tienda.hr-body {
 
 /* Contenido de la ventana modal */
 .modal-content {
-  background-color: #f4e8c8; /* Un color pergamino claro */
+  background-color:#b98941; /* Un color pergamino claro */
   margin: auto;
   padding: 6px;
   width: 330px;
   font-size: 12px;
+  justify-content: center;
+  text-align: center;
+  border-radius: 5px;
 }
 
 .modal-content p {
@@ -1413,6 +1558,7 @@ hr#tienda.hr-body {
   position: relative;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   color: white;
+  border-radius: 30px;
 }
 
 .creditos-content h2 {
@@ -1442,6 +1588,7 @@ hr#tienda.hr-body {
 
 .team-member {
   text-align: center;
+  
 }
 
 .team-member img {
@@ -1466,6 +1613,10 @@ hr#tienda.hr-body {
     color: #bbb;
     text-decoration: none;
     cursor: pointer;
+}
+
+.miembro1 {
+
 }
 
 /*
@@ -1547,7 +1698,8 @@ border: 2px solid #d3b892;
   grid-template-areas:
       "texto recompensa status"
       "barra barra barra";
-  grid-template-columns: 1fr auto auto;
+  /* La corrección clave: minmax(0, 1fr) permite que la columna de texto se encoja y fuerce el ajuste del texto. */
+  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
   background-color: #c1a37c;
   padding: 10px;
@@ -1566,6 +1718,8 @@ border: 2px solid #d3b892;
   text-align: left;
   color: #4b2e1c;
   font-weight: bold;
+  white-space: normal;   /* Permite el salto de línea */
+  word-break: break-word;  /* Rompe palabras largas si es necesario */
 }
 
 .mision-recompensa {
@@ -1663,11 +1817,12 @@ border: 2px solid #d3b892;
 
 .user-info-background {
   background: url(/public/images/slider_final_3.webp) no-repeat center;
-  background-size: 100% 100%;
+  background-size: 100%; 
   padding: 15px;
   margin: 0 auto;
-  width: 90%;
+  width: 250px;
   max-width: 300px;
+  height: 100px;
 }
 
 .user-info-container {
@@ -1686,9 +1841,13 @@ border: 2px solid #d3b892;
 .perfil-stats {
   display: flex;
   justify-content: space-around;
+  text-align: center;
   padding: 0 20px;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 15px;
+  width: 180px;
+  margin-left: 15px;
+  margin-top: 30px;
 }
 
 .stat-item {
@@ -1746,7 +1905,20 @@ border: 2px solid #d3b892;
 
 .menu-options-capitales {
   position: absolute;
-  top: 116px;
+  top: 237px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Aumenté el espacio entre botones */
+  align-items: center;
+  font-family: "Cinzel", serif;
+}
+
+.menu-options-capitales-niveles{
+  position: absolute;
+  top: 58%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
@@ -1759,8 +1931,10 @@ border: 2px solid #d3b892;
 
 .menu-img-capitales {
   width: 300px;
+  height: 280px;
+  margin-left: 7px;
   display:block;
-  bottom: 0px;
+  margin-bottom: 10px;
   position: relative;
   top:10px
 }
@@ -1775,7 +1949,7 @@ border: 2px solid #d3b892;
 .menu-container-capitales {
   margin: 20px auto;
   background-color: rgba(20, 20, 20, 0.3);
-  padding: 15px;
+  padding: 25px;
   border-radius: 12px;
   text-align: center;
   top: 65px;
@@ -1784,10 +1958,392 @@ border: 2px solid #d3b892;
 
 .menu-img-niveles {
   width: 300px;
-  height: 400px;
+  height: 315px;
   top:15px;
   border-radius: 12px;
   text-align: center;
   justify-content: center;
   position: relative;
+}
+
+.menu-capitales{
+  width: 310px;
+  height: 350px;
+  margin: 20px auto;
+  background-color: rgba(20, 20, 20, 0.3);
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+  position: relative;
+}
+
+.capitales-header{
+  background-color: #4b2e1c;
+  /* marrón oscuro */
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 7px;
+  width: 200px;
+  margin-left: 42px;
+  position: relative;
+  top: 5px;
+}
+
+.capitales-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/*
+============================
+
+         13.1) Info-Capitales
+
+============================
+*/
+.menu-container-info-capitales {
+  margin: 20px auto;
+  background-color: rgba(20, 20, 20, 0.3);
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  top: 65px;
+  position: relative;
+  width: 350px; /* Ancho para el contenedor principal */
+}
+
+.menu-header-info {
+  background-color: #4b2e1c;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 7px;
+  width: 200px;
+  margin: 0 auto; /* Centra el header */
+  position: relative;
+}
+
+.menu-body-info-capitales {
+  background-image: url('/public/images/pergamino-final.webp');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 465px; /* Altura para que el pergamino se vea completo */
+  margin-top: 15px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.menu-body-info-capitales .info-text {
+  color: #332d2d; /* Color oscuro para el texto, para que sea legible */
+  font-weight: bold;
+  max-width: 60%; /* Ancho máximo para el texto para que no se vaya a los bordes */
+  margin-bottom: 20px; /* Espacio antes del botón */
+}
+
+.menu-btn-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 85px;
+  height: 100px;
+  background-image: url("../images/recuadro_modificado.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "Cinzel", serif;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: normal;
+  margin-left: 0; /* Quitado el margen que lo movía */
+}
+
+.menu-btn-info:hover {
+  transform: scale(1.05);
+}
+
+.menu-btn-info:active {
+  transform: translateY(3px) scale(0.97);
+  box-shadow: 0 1px 0 #222;
+}
+/*
+============================
+
+         14) Misc
+
+============================
+*/
+
+.timer-display {
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+  background-color: rgba(20, 20, 20, 0.4);
+  border-radius: 20px;
+}
+
+/*
+============================
+    15) ESTILOS PANTALLA DE JUEGO
+============================
+*/
+
+.game-background {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.game-content-wrapper {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  padding: 20px;
+  padding-top: 60px;
+  width: 370px;
+  max-width: 95%;
+  position: relative;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.game-header-info {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.timer-container-game {
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 25px;
+  padding: 5px 15px;
+  color: white;
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  top: 20px;
+  position: relative;
+}
+
+.timer-container-game img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.game-body {
+  text-align: center;
+  color: white;
+}
+
+.game-title {
+  background-color: #4b2e1c;
+  color: white;
+  font-weight: bold;
+  padding: 12px 25px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+#pregunta-enunciado {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 35px;
+  line-height: 1.4;
+  padding: 0 15px;
+  min-height: 60px; /* Espacio para que no salte el layout */
+}
+
+.opciones-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#opciones-container button {
+  background: url('/public/images/fondo-boton1.webp') no-repeat center center;
+  background-size: 100% 100%;
+  border: none;
+  border-radius: 50px;
+  color: rgb(255, 255, 255);
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 900;
+  padding: 15px;
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.3s;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+#opciones-container button:hover:not(:disabled) {
+  transform: scale(1.03);
+  filter: brightness(1.1);
+}
+
+#opciones-container button:disabled {
+  cursor: not-allowed;
+  transform: none;
+}
+
+#opciones-container button.correct {
+  filter: sepia(100%) hue-rotate(50deg) saturate(300%) brightness(0.9);
+  color: white;
+}
+
+#opciones-container button.incorrect {
+  filter: opacity(0.5);
+}
+
+#opciones-container button.selected-incorrect {
+  filter: sepia(100%) hue-rotate(-60deg) saturate(400%) brightness(0.7);
+  color: white;
+}
+
+.btn-volver.in-game {
+  position: absolute;
+  top: 35px;
+  left: 20px;
+  z-index: 100;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.btn-volver.in-game img {
+  width: 35px;
+  height: 35px;
+}
+
+/*
+============================
+    16) ESTILOS JUEGO DE BANDERAS
+============================
+*/
+
+/* Nuevo cuerpo para el juego de banderas, adaptado de 'game-body' */
+.game-body-flags {
+  text-align: center;
+  color: white;
+}
+
+/* Contenedor específico para la imagen de la bandera */
+.flag-image-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 10px;
+  margin: 25px auto;
+  width: 80%;
+  max-width: 280px;
+  height: 180px; /* Altura fija para consistencia */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+#bandera-imagen {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Título del juego de banderas */
+#game-title-flags {
+  background-color: #4b2e1c;
+  color: white;
+  font-weight: bold;
+  padding: 12px 25px;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+#contenedor-banderas {
+  top: 50px;
+}
+
+#menu-banderas {
+  top: 0px;
+}
+
+#menu-fondo-banderas {
+  height: 280px;
+}
+
+
+/*
+============================
+    17) ESTILOS JUEGO DE TERRITORIOS
+============================
+*/
+
+/* Cuerpo específico para el layout del juego de territorios */
+.game-body-territories {
+  text-align: center;
+  color: white;
+}
+
+/* El enunciado de la pregunta usará el estilo .game-title, 
+ pero le damos un mínimo de altura para que el layout no salte. */
+#pregunta-enunciado.game-title {
+  min-height: 40px;
+  margin-bottom: 20px;
+  font-size: 16px; /* Un poco más pequeño para preguntas largas */
+  padding: 12px 15px;
+}
+
+/* Contenedor de la imagen del territorio, similar al de banderas */
+.territory-image-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 10px;
+  margin: 0 auto 25px; /* Centrado y con margen inferior */
+  width: 90%;
+  max-width: 320px;
+  height: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+#pregunta-imagen {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#contenedor-territorios {
+  top: 50px;
+}
+
+#info-territorios {
+  top: 10px;
 }

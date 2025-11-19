@@ -7,15 +7,37 @@
     <link rel="stylesheet" href="/public/styles/styles.css">
 </head>
 <body>
-    <a href="/public/pages/menu.html" class="btn-volver">
-        <img src="/public/images/boton-salir.webp" alt="Volver">
-    </a>
+    <!-- Fondo y Contenedor Principal -->
+    <div class="game-background">
+        
+        <!-- Botón para Salir -->
+        <a href="preguntados.html" class="btn-volver in-game">
+            <img src="/public/images/boton-salir.webp" alt="Volver">
+        </a>
 
-    <!-- Contenedor del juego (ahora se muestra directamente) -->
-    <div id="juego-container">
-        <!-- El contenido del juego se generará aquí por JS al cargar la página -->
+        <!-- Header con Temporizador -->
+        <div class="game-header-info">
+            <div class="timer-container-game">
+                <img src="/public/images/reloj_icono.webp" alt="Tiempo">
+                <span id="timer">10s</span>
+            </div>
+        </div>
+        
+        <!-- Wrapper del Contenido del Juego -->
+        <div class="game-content-wrapper">
+
+            <!-- Cuerpo Principal del Juego -->
+            <div class="game-body">
+                <div class="game-title" id="game-title">PREGUNTADOS: <strong>FÁCIL</strong></div>
+                <p id="pregunta-enunciado">Cargando pregunta...</p>
+                <div id="opciones-container" class="opciones-wrapper">
+                    <!-- Las opciones se generarán aquí por JavaScript -->
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Tu script del juego no necesita cambios -->
     <script src="/backend/functions/game/juego.js" type="module"></script>
 </body>
 </html>

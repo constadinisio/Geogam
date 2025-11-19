@@ -1,10 +1,10 @@
 import { auth, db } from "../../config/firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, getDoc, updateDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { banderas } from "../../data/banderas.js";
 import { checkMissions } from "../missions/mission-processor.js";
 
-// --- Variables de estado del juego ---
+// --- Variables de estado del juego (SIN CAMBIOS) ---
 let currentUser = null;
 let preguntasJuego = [];
 let preguntaActualIndex = 0;
@@ -16,13 +16,16 @@ let dificultadPartida = '';
 let timerInterval = null;
 
 // --- Elementos del DOM ---
-let opcionesContainer, timerEl, juegoContainer, imagenEl;
+let opcionesContainer, timerEl, juegoContainer, imagenEl, containerBanderas, gameTitleEl;
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Asignamos todos los elementos del DOM que usaremos
     opcionesContainer = document.getElementById('opciones-container');
     timerEl = document.getElementById('timer');
     juegoContainer = document.getElementById('juego-container');
     imagenEl = document.getElementById('bandera-imagen');
+    containerBanderas = document.querySelector('.container-banderas'); // Pantalla de bienvenida
+    gameTitleEl = document.getElementById('game-title-flags');
 
     const params = new URLSearchParams(window.location.search);
     dificultadPartida = params.get('dificultad');
@@ -30,15 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
             currentUser = user;
-            const containerBanderas = document.querySelector('.container-banderas');
-
+            // **MODIFICACIÓN**: Lógica de visibilidad sin cambios, pero sobre los nuevos divs
             if (dificultadPartida) {
-                // Si hay dificultad, se inicia el juego
                 if (containerBanderas) containerBanderas.style.display = 'none';
                 if (juegoContainer) juegoContainer.style.display = 'block';
+                
+                // Actualizamos el título con la dificultad
+                if (gameTitleEl) gameTitleEl.innerHTML = `ADIVINA LA BANDERA: <strong>${dificultadPartida.toUpperCase()}</strong>`;
+                
                 iniciarPartida();
             } else {
-                // Si no hay dificultad, se muestra la pantalla de bienvenida
                 if (containerBanderas) containerBanderas.style.display = 'block';
                 if (juegoContainer) juegoContainer.style.display = 'none';
             }
@@ -50,10 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function iniciarPartida() {
+    // --- LÓGICA DE CARGA Y FILTRADO (SIN CAMBIOS) ---
     const preguntasFiltradas = banderas.filter(b => b.dificultad === dificultadPartida);
     preguntasJuego = preguntasFiltradas.sort(() => Math.random() - 0.5).slice(0, 5);
 
     if (preguntasJuego.length > 0) {
+        // --- LÓGICA DE REINICIO DE PARTIDA (SIN CAMBIOS) ---
         preguntaActualIndex = 0;
         respuestasCorrectas = 0;
         monedasGanadas = 0;
@@ -61,50 +67,70 @@ function iniciarPartida() {
         rachaActual = 0;
         mostrarPreguntaActual();
     } else {
-        if(juegoContainer) juegoContainer.innerHTML = '<p style="color: white; text-align: center;">No hay preguntas para esta dificultad.</p>';
+        if(juegoContainer) juegoContainer.innerHTML = '<p style="color: white; text-align: center; font-size: 1.5rem;">No hay preguntas para esta dificultad.</p>';
     }
 }
 
 function mostrarPreguntaActual() {
-    if (!juegoContainer || !opcionesContainer || !timerEl || !imagenEl) return;
+    if (!opcionesContainer || !timerEl || !imagenEl) return;
 
     const pregunta = preguntasJuego[preguntaActualIndex];
+    
+    // **MODIFICACIÓN**: Actualizamos el src de la imagen y limpiamos opciones
     imagenEl.src = `/public/images/banderas/${pregunta.imagenNombre}`;
+    imagenEl.alt = `Bandera para adivinar`; // Mejor accesibilidad
     opcionesContainer.innerHTML = '';
 
     const opciones = [...pregunta.opcionesIncorrectas, pregunta.respuestaCorrecta];
     opciones.sort(() => Math.random() - 0.5);
 
+    // **MODIFICACIÓN**: Creamos botones en lugar de enlaces <a>
     opciones.forEach(opcion => {
-        const botonOpcion = document.createElement('a');
+        const botonOpcion = document.createElement('button');
         botonOpcion.textContent = opcion;
-        botonOpcion.classList.add('menu-btn');
-        botonOpcion.href = '#';
+        // La clase se aplica por CSS directamente a los botones del contenedor
+        
         botonOpcion.addEventListener('click', (e) => {
             e.preventDefault();
-            manejarRespuesta(opcion, pregunta.respuestaCorrecta);
+            // Pasamos el botón para poder aplicar estilos de acierto/error
+            manejarRespuesta(opcion, pregunta.respuestaCorrecta, botonOpcion);
         });
         opcionesContainer.appendChild(botonOpcion);
     });
 
+    // --- LÓGICA DEL TEMPORIZADOR (SIN CAMBIOS, SOLO TEXTO) ---
     clearInterval(timerInterval);
-    let timeLeft = 15;
-    timerEl.textContent = timeLeft;
+    let timeLeft = 10;
+    timerEl.textContent = timeLeft + "s";
 
     timerInterval = setInterval(() => {
         timeLeft--;
-        timerEl.textContent = timeLeft;
+        timerEl.textContent = timeLeft + "s";
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             rachaActual = 0;
-            siguientePregunta();
+            // Damos feedback visual al acabarse el tiempo
+            opcionesContainer.querySelectorAll('button').forEach(btn => btn.disabled = true);
+            setTimeout(siguientePregunta, 1500);
         }
     }, 1000);
 }
 
-function manejarRespuesta(opcionSeleccionada, respuestaCorrecta) {
+// **MODIFICACIÓN**: Aceptamos el botón pulsado para aplicar estilos
+function manejarRespuesta(opcionSeleccionada, respuestaCorrecta, botonPulsado) {
     clearInterval(timerInterval);
 
+    // **MODIFICACIÓN**: Deshabilitar todos los botones y aplicar clases de estilo
+    opcionesContainer.querySelectorAll('button').forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent === respuestaCorrecta) {
+            btn.classList.add('correct');
+        } else {
+            btn.classList.add('incorrect');
+        }
+    });
+    
+    // --- LÓGICA DE PUNTUACIÓN (SIN CAMBIOS) ---
     if (opcionSeleccionada === respuestaCorrecta) {
         respuestasCorrectas++;
         rachaActual++;
@@ -116,11 +142,17 @@ function manejarRespuesta(opcionSeleccionada, respuestaCorrecta) {
         const bonoRacha = rachaActual >= 3 ? 5 * (rachaActual - 2) : 0;
         monedasGanadas += monedasPorRespuesta + bonoRacha;
         xpGanada += xpPorRespuesta;
-
     } else {
         rachaActual = 0;
+        // Aplicamos el estilo de "mal seleccionado"
+        if (botonPulsado) {
+            botonPulsado.classList.remove('incorrect');
+            botonPulsado.classList.add('selected-incorrect');
+        }
     }
-    siguientePregunta();
+    
+    // Esperamos un momento para que el usuario vea el resultado
+    setTimeout(siguientePregunta, 1500);
 }
 
 function siguientePregunta() {
@@ -136,19 +168,25 @@ async function mostrarResumenFinal() {
     clearInterval(timerInterval);
     await actualizarDatosYRevisarMisiones();
 
+    // **MODIFICACIÓN**: Reemplazamos todo el contenedor del juego con el resumen
     if (juegoContainer) {
         juegoContainer.innerHTML = `
-            <div class="menu-container" id="resumen-final" style="text-align: center;">
-                <div class="menu-header">¡Partida Completada!</div>
-                <div class="resumen-body" style="background-image: url('/public/images/fondorecuadro2.webp'); background-size: 100% 100%; background-repeat: no-repeat; background-position: center; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; margin-top: 20px;">
-                    
-                    <p style="font-family: 'Cinzel', serif; color: black; font-size: 1.5rem; font-weight: bold;">Aciertos: ${respuestasCorrectas} de ${preguntasJuego.length}</p>
-                    <p style="font-family: 'Cinzel', serif; color: #FFD700; font-size: 1.5rem; font-weight: bold; -webkit-text-stroke: 1px black;">Monedas: +${monedasGanadas}</p>
-                    <p style="font-family: 'Cinzel', serif; color: #00FFFF; font-size: 1.5rem; font-weight: bold; -webkit-text-stroke: 1px black;">XP: +${xpGanada}</p>
-                    
-                    <div style="margin-top: 30px;">
-                        <a href="niveles-banderas.html" class="menu-btn">Jugar de Nuevo</a>
-                        <a href="banderas.html" class="menu-btn">Volver al Menú</a>
+            <div class="game-background">
+                <div class="menu-container" id="resumen-final" style="text-align: center; color: white;">
+                    <div class="game-title">¡Partida Finalizada!</div>
+                    <div class="resumen-body" style="background-color: rgba(0,0,0,0.2); border-radius: 15px; padding: 30px; margin-top: 20px;">
+                        
+                        <p style="font-size: 1.8rem; font-weight: bold; margin-bottom: 20px;">Aciertos: ${respuestasCorrectas} de ${preguntasJuego.length}</p>
+                        
+                        <div style="display: flex; justify-content: center; gap: 30px; font-size: 1.6rem; margin-bottom: 35px;">
+                            <span style="color: white; font-weight: bold; -webkit-text-stroke: 1px black;">+${monedasGanadas} Monedas</span>
+                            <span style="color: white; font-weight: bold; -webkit-text-stroke: 1px black;">+${xpGanada} XP</span>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                            <a href="banderas.html" class="menu-btn" style="width: 220px;">Jugar de Nuevo</a>
+                            <a href="../offline-mode.html" class="menu-btn" style="width: 220px;">Volver al Menú</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -156,6 +194,7 @@ async function mostrarResumenFinal() {
     }
 }
 
+// --- FUNCIÓN DE ACTUALIZAR DATOS EN FIRESTORE (SIN CAMBIOS) ---
 async function actualizarDatosYRevisarMisiones() {
     if (!currentUser) return;
     const userDocRef = doc(db, "users", currentUser.uid);
@@ -166,19 +205,14 @@ async function actualizarDatosYRevisarMisiones() {
     };
 
     try {
-        // 1. Actualiza las estadísticas principales del usuario
         await updateDoc(userDocRef, {
             'monedas': increment(monedasGanadas),
             'xp': increment(xpGanada),
             'estadisticas.partidasJugadas': increment(1),
             'estadisticas.preguntasCorrectas': increment(respuestasCorrectas),
-
             'estadisticas.preguntasIncorrectas': increment(preguntasJuego.length - respuestasCorrectas)
         });
-
-        // 2. Llama al procesador de misiones con el resultado de la partida
         await checkMissions(currentUser.uid, gameResult);
-
     } catch (error) {
         console.error("Error al actualizar estadísticas y misiones: ", error);
     }

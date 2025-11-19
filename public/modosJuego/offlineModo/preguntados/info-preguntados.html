@@ -3,32 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preguntados</title>
-    <link rel="stylesheet" href="../../styles/styles.css"> </head>
+    <title>Información - Preguntados</title>
+    <link rel="stylesheet" href="../../../styles/styles.css">
+</head>
 <body>
+    <a href="preguntados.html" class="btn-volver">
+        <img src="/public/images/boton-salir.webp" alt="Volver">
+    </a>
 
-    <div id="modalPreguntados" class="modal" style="display: block;">
-        <div class="modal-contenido-preguntados">
-            <a href="preguntados.html" class="close-creditos">&times;</a>
-            <div class="modal-header"></div>
-            <div class="modal-body">
-                <p><strong>Modo de Juego:</strong> Preguntas geográficas cada 15 segundos.</p>
-                <p><strong>Objetivo:</strong> Responder de manera correcta la mayor cantidad de preguntas.</p>
+    <div class="body-pergamino">
+        <h1 class="pergamino-header" id="info-preguntados">Preguntados</h1>
+        <hr class="hr-body" style="top: -35px;">
+
+        <div class="misiones-content" style="padding-top: 20px; padding-bottom: 20px; bottom: 80px; right: 5px;">
+            <div style="margin-bottom: 20px;">
+                <h2 style="font-size: 22px; margin-bottom: 10px;">Modo de Juego:</h2>
+                <p style="font-size: 18px; margin-left: 20px;">Preguntas geográficas que deberás responder en 15 segundos.</p>
             </div>
-            <div class="modal-footer">
-                <p>¡A demostrar conocimiento!</p>
+
+            <div style="margin-bottom: 20px;">
+                <h2 style="font-size: 22px; margin-bottom: 10px;">Objetivo:</h2>
+                <p style="font-size: 18px; margin-left: 20px;">Responder correctamente la mayor cantidad de preguntas para acumular puntos.</p>
             </div>
+
+            <p style="font-size: 20px; font-weight: bold; margin-bottom: 25px;">¡A demostrar tus conocimientos!</p>
         </div>
     </div>
-
-    <script>
-    const modal = document.getElementById('modalPreguntados');
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            window.location.href = 'preguntados.html';
-        }
-    }
-    </script>
-
 </body>
 </html>

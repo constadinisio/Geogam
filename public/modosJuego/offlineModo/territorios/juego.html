@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Territorios - Juego</title>
-    <link rel="stylesheet" href="/public/styles/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap">
+    <title>Territorios - World Dominator</title>
+    <link rel="stylesheet" href="../../../styles/styles.css">
 </head>
 <body>
-    <!-- Contenedor principal del juego que será reemplazado por el resumen -->
-    <div id="juego-container">
-        <div class="header-juego">
-            <a href="niveles.html" class="btn-salir-juego">
-                <img src="/public/images/boton-salir.webp" alt="Salir">
-            </a>
-            <div id="timer" class="timer-display">15</div>
+    <div class="game-background">
+        <!-- El botón de volver ahora tiene la clase in-game para posicionarlo correctamente -->
+        <a href="niveles.html" class="btn-volver in-game">
+            <img src="/public/images/boton-salir.webp" alt="Volver">
+        </a>
+
+        <div class="game-header-info">
+            <div class="timer-container-game">
+                <img src="/public/images/reloj_icono.webp" alt="Tiempo">
+                <span id="timer">15s</span>
+            </div>
         </div>
 
-        <div class="menu-container centered">
-            <h2 id="pregunta-enunciado" class="menu-header" style="font-size: 1.5rem; margin-bottom: 1rem;"></h2>
-            <div class="territorio-container">
-                <img id="pregunta-imagen" src="" alt="Territorio" style="max-width: 100%; height: auto; margin-bottom: 1rem; border-radius: 10px;">
-            </div>
-            <hr class="menu-divider-juego" />
-            
-            <div id="opciones-container" class="menu-options-juego">
-                <!-- Las opciones de respuesta se generarán aquí dinámicamente -->
+        <div class="game-content-wrapper" id="contenedor-territorios">
+
+            <div class="game-body-territories">
+                <!-- El enunciado de la pregunta -->
+                <div id="pregunta-enunciado" class="game-title">Cargando...</div>
+
+                <!-- Contenedor para la imagen del territorio -->
+                <div class="territory-image-container">
+                    <img id="pregunta-imagen" src="" alt="Territorio a identificar">
+                </div>
+
+                <!-- Contenedor para las opciones de respuesta -->
+                <div id="opciones-container" class="opciones-wrapper">
+                    <!-- Las opciones se generan dinámicamente -->
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- El script del juego -->
-    <script type="module" src="/backend/functions/game/territorios.js"></script>
+    <!-- Script específico del juego de Territorios -->
+    <script src="/backend/functions/game/territorios.js" type="module"></script>
 </body>
 </html>

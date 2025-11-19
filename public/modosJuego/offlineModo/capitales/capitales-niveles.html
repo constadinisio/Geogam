@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivina la Capital - World Dominator</title>
+    <link rel="stylesheet" href="/public/styles/styles.css">
+</head>
+<body>
+    <!-- PANTALLA DE SELECCIÓN DE DIFICULTAD (Visible por defecto) -->
+    <div id="container-capitales" class="container-capitales">
+        <a href="capitales.html" class="btn-volver">
+            <img src="/public/images/boton-salir.webp" alt="Volver">
+        </a>
+        <div class="menu-capitales">
+            <div class="capitales-header" style="left: 0;">ADIVINA LA CAPITAL</div>
+            <br>
+            <img src="/public/images/fondorecuadro2.webp" alt="Menu Background" class="menu-img-capitales">
+            <div id="menu-options-container" class="menu-options-capitales">
+                <a href="juego.html?dificultad=Fácil" class="btn-nivel">Fácil</a>
+                <a href="juego.html?dificultad=Media" id="btn-nivel-medio" class="btn-nivel locked">Media</a>
+                <a href="juego.html?dificultad=Difícil" id="btn-nivel-dificil" class="btn-nivel locked">Difícil</a>
+            </div>
+        </div>
+    </div>
+    <script src="/backend/functions/game/capitales.js" type="module"></script>
+</body>
+</html>
